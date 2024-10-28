@@ -1,0 +1,124 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - Enemy
+  - AttackArea
+  - ConfinerBounds
+  - Water
+  - Spike
+  - Interactive
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - Ground
+  - Player
+  - Enemy
+  - PlayerAttackArea
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0
+  - name: Background1
+    uniqueID: 3574954257
+    locked: 0
+  - name: Background2
+    uniqueID: 2578508507
+    locked: 0
+  - name: Background3
+    uniqueID: 2053174547
+    locked: 0
+  - name: Background4
+    uniqueID: 3187331971
+    locked: 0
+  - name: BackDecoration1
+    uniqueID: 3848724259
+    locked: 0
+  - name: BackDecoration2
+    uniqueID: 599500681
+    locked: 0
+  - name: BackDecoration3
+    uniqueID: 213319929
+    locked: 0
+  - name: Building4
+    uniqueID: 3301107987
+    locked: 0
+  - name: Building3
+    uniqueID: 961452929
+    locked: 0
+  - name: Building2
+    uniqueID: 2753952371
+    locked: 0
+  - name: Building1
+    uniqueID: 2883616429
+    locked: 0
+  - name: BuildingDecoration4
+    uniqueID: 2521417185
+    locked: 0
+  - name: BuildingDecoration3
+    uniqueID: 3386310539
+    locked: 0
+  - name: BuildingDecoration2
+    uniqueID: 1050479139
+    locked: 0
+  - name: BuildingDecoration1
+    uniqueID: 2141110633
+    locked: 0
+  - name: Water1
+    uniqueID: 441449757
+    locked: 0
+  - name: Spike
+    uniqueID: 203431123
+    locked: 0
+  - name: Instance
+    uniqueID: 3098909165
+    locked: 0
+  - name: Ground1
+    uniqueID: 4177786861
+    locked: 0
+  - name: Ground2
+    uniqueID: 2588184823
+    locked: 0
+  - name: Ground3
+    uniqueID: 2498540307
+    locked: 0
+  - name: Ground4
+    uniqueID: 4138633659
+    locked: 0
+  - name: FrontDecoration1
+    uniqueID: 4180662037
+    locked: 0
+  - name: FrontDecoration2
+    uniqueID: 586332039
+    locked: 0
+  - name: FrontDecoration3
+    uniqueID: 533143217
+    locked: 0
