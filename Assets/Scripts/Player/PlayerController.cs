@@ -136,16 +136,22 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
         // 监听player的坐标
         EventHandler.OnGetPlayerPosition += GetPlayerPosition;
         // 监听场景加载事件
-        loadEvent.LoadRequestEvent += OnLoadSceneEvent;
-        afterSceneLoadedEvent.OnEventCalled += OnAfterSceneLoadEvent;
+        //loadEvent.LoadRequestEvent += OnLoadSceneEvent;
+        //afterSceneLoadedEvent.OnEventCalled += OnAfterSceneLoadEvent;
+
+        EventHandler.OnSceneLoadEvent += OnLoadSceneEvent;
+        EventHandler.OnAfterSceneLoadEvent += OnAfterSceneLoadEvent;
     }
 
     private void OnDisable()
     {
         inputControl.Disable();
         EventHandler.OnGetPlayerPosition -= GetPlayerPosition;
-        loadEvent.LoadRequestEvent += OnLoadSceneEvent;
-        afterSceneLoadedEvent.OnEventCalled -= OnAfterSceneLoadEvent;
+        //loadEvent.LoadRequestEvent += OnLoadSceneEvent;
+        //afterSceneLoadedEvent.OnEventCalled -= OnAfterSceneLoadEvent;
+
+        EventHandler.OnSceneLoadEvent -= OnLoadSceneEvent;
+        EventHandler.OnAfterSceneLoadEvent -= OnAfterSceneLoadEvent;
     }
 
     // Start is called before the first frame update
@@ -339,6 +345,7 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
     /// <exception cref="NotImplementedException"></exception>
     private void OnAfterSceneLoadEvent()
     {
+      
         inputControl.GamePlay.Enable();
     }
 

@@ -40,6 +40,8 @@ public class Teleport : MonoBehaviour,IInteractable
         //Debug.Log("try to teleport");
         //Debug.Log(loadSceneEvent);
         // 调用场景加载事件
-        loadEventSO.CallLoadRequestEvent(sceneToGo, positionToGo, true);
+        //loadEventSO.CallLoadRequestEvent(sceneToGo, positionToGo, true);
+
+        EventHandler.CallSceneLoadEvent(sceneToGo,positionToGo, true);
     }
 }

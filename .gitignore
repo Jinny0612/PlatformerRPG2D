@@ -127,3 +127,5 @@ Assets/Samples/Terrain*Tools/*
 # 忽略美术、音乐等素材
 Assets/Art Assets/*
 Assets/Art Assets.meta
+Assets/Audio/*
+Assets/Audio.meta

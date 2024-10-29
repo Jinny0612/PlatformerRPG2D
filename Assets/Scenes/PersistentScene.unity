@@ -172,6 +172,7 @@ GameObject:
   m_Component:
   - component: {fileID: 50561519}
   - component: {fileID: 50561520}
+  - component: {fileID: 50561521}
   m_Layer: 0
   m_Name: SceneLoadManager
   m_TagString: Untagged
@@ -201,7 +202,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 50561518}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 1e45249164b40e147ac70fcfafb1b1e6, type: 3}
   m_Name: 
@@ -216,6 +217,30 @@ MonoBehaviour:
   afterSceneLoadedEvent: {fileID: 11400000, guid: de481b6f9de79524b9e546a973653328, type: 2}
   fadeEvent: {fileID: 11400000, guid: 50335cc998d37164b8fbeeff00496d17, type: 2}
   sceneUnloadedEvent: {fileID: 11400000, guid: 863bcd281fd489f4b89f4e1291d8329c, type: 2}
+  firstLoadScene: {fileID: 11400000, guid: baeb09d540b8b65428cdab33ff552b8d, type: 2}
+  menuScene: {fileID: 11400000, guid: 2afc0007d98bd46428b750291e710108, type: 2}
+--- !u!114 &50561521
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 50561518}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e498e8d9a4d015040be96eb4ded04991, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  fadeDuration: 0
+  player: {fileID: 1704938765}
+  followPlayerCamera: {fileID: 1438640621}
+  firstEnterGamePlayerPosition: {x: -70, y: 0, z: 0}
+  currentLoadScene: {fileID: 0}
+  loadSceneEvent: {fileID: 0}
+  newGameEvent: {fileID: 0}
+  afterSceneLoadedEvent: {fileID: 0}
+  fadeEvent: {fileID: 11400000, guid: 50335cc998d37164b8fbeeff00496d17, type: 2}
+  sceneUnloadedEvent: {fileID: 0}
   firstLoadScene: {fileID: 11400000, guid: baeb09d540b8b65428cdab33ff552b8d, type: 2}
   menuScene: {fileID: 11400000, guid: 2afc0007d98bd46428b750291e710108, type: 2}
 --- !u!1 &77373964

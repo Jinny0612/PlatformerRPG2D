@@ -50,12 +50,21 @@ public class Character : MonoBehaviour
 
     private void OnEnable()
     {
-        newGameEvent.OnEventCalled += NewGameEvent;
+        //newGameEvent.OnEventCalled += NewGameEvent;
+
+        EventHandler.OnResetCharacterBasicInfoWhenLoadSceneEvent += NewGameEvent;
+    }
+
+    private void Start()
+    {
+        invulnerabilityManager = InvulnerabilityManager.Instance;
     }
 
     private void OnDisable()
     {
-        newGameEvent.OnEventCalled -= NewGameEvent;
+        //newGameEvent.OnEventCalled -= NewGameEvent;
+
+        EventHandler.OnResetCharacterBasicInfoWhenLoadSceneEvent -= NewGameEvent;
     }
 
     private void Update()
@@ -84,8 +93,8 @@ public class Character : MonoBehaviour
         currentHealth = maxHealth;
         OnHealthChange?.Invoke(this);
 
-        invulnerabilityManager = InvulnerabilityManager.Instance;
-        Debug.Log(this.gameObject.name + " = " + currentHealth);
+        
+     
 
     }
 

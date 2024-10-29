@@ -25,13 +25,17 @@ public class UIManager : MonoBehaviour
     private void OnEnable()
     {
         healthEvent.OnEventCalled += OnHealthEvent;
-        sceneLoadEvent.LoadRequestEvent += OnSceneLoadEvent;
+        //sceneLoadEvent.LoadRequestEvent += OnSceneLoadEvent;
+
+        EventHandler.OnSceneUnloadEvent += OnSceneLoadEvent;
     }
 
     private void OnDisable()
     {
         healthEvent.OnEventCalled -= OnHealthEvent;
-        sceneLoadEvent.LoadRequestEvent -= OnSceneLoadEvent;
+        //sceneLoadEvent.LoadRequestEvent -= OnSceneLoadEvent;
+
+        EventHandler.OnSceneUnloadEvent -= OnSceneLoadEvent;
     }
 
     /// <summary>
@@ -54,6 +58,8 @@ public class UIManager : MonoBehaviour
                 break;
             default: break;
         }
+
+        
         
     }
 

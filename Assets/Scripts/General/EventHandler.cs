@@ -44,4 +44,78 @@ public static class EventHandler
     }
 
 
+    #region 场景切换相关
+
+    /// <summary>
+    /// 开始新游戏事件委托
+    /// </summary>
+    public static Action OnNewGameEvent;
+    /// <summary>
+    /// 执行开始游戏委托
+    /// </summary>
+    public static void CallNewGameEvent()
+    {
+        OnNewGameEvent?.Invoke();
+    }
+
+    /// <summary>
+    /// 场景加载委托
+    /// </summary>
+    public static Action<GameSceneSO, Vector3, bool> OnSceneLoadEvent;
+    /// <summary>
+    /// 调用场景加载委托
+    /// </summary>
+    /// <param name="gameScene"></param>
+    /// <param name="playerPosition"></param>
+    /// <param name="isFaded"></param>
+    public static void CallSceneLoadEvent(GameSceneSO gameScene, Vector3 playerPosition, bool isFaded)
+    {
+        OnSceneLoadEvent?.Invoke(gameScene, playerPosition, isFaded);
+    }
+
+    /// <summary>
+    /// 场景卸载委托
+    /// </summary>
+    public static Action<GameSceneSO, Vector3, bool> OnSceneUnloadEvent;
+    /// <summary>
+    /// 调用场景卸载委托
+    /// </summary>
+    /// <param name="gameScene"></param>
+    /// <param name="playerPosition"></param>
+    /// <param name="isFaded"></param>
+    public static void CallSceneUnloadEvent(GameSceneSO gameScene, Vector3 playerPosition, bool isFaded)
+    {
+        OnSceneLoadEvent?.Invoke(gameScene, playerPosition, isFaded);
+    }
+
+    /// <summary>
+    /// 场景加载成功后的事件
+    /// </summary>
+    public static Action OnAfterSceneLoadEvent;
+    /// <summary>
+    /// 调用场景加载成功后的委托
+    /// </summary>
+    public static void CallAfterSceneLoadEvent()
+    {
+        OnAfterSceneLoadEvent?.Invoke();
+    }
+
+    #endregion
+
+    #region Character相关
+
+    /// <summary>
+    /// 切换场景重置character基本信息
+    /// </summary>
+    public static Action OnResetCharacterBasicInfoWhenLoadSceneEvent;
+    /// <summary>
+    /// 切换场景重置character基本信息
+    /// </summary>
+    public static void CallResetCharacterBasicInfoWhenLoadSceneEvent()
+    {
+        OnResetCharacterBasicInfoWhenLoadSceneEvent?.Invoke();
+    }
+
+    #endregion
+
 }

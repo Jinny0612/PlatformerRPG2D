@@ -31,13 +31,17 @@ public class CameraControl : MonoBehaviour
     private void OnEnable()
     {
         cameraShakeEvent.OnEventCalled += OnCameraShakeEvent;
-        afterSceneLoadedEvent.OnEventCalled += OnAfterSceneLoadedEvent;
+        //afterSceneLoadedEvent.OnEventCalled += OnAfterSceneLoadedEvent;
+
+        EventHandler.OnAfterSceneLoadEvent += OnAfterSceneLoadedEvent;
     }
 
     private void OnDisable()
     {
         cameraShakeEvent.OnEventCalled -= OnCameraShakeEvent;
-        afterSceneLoadedEvent.OnEventCalled -= OnAfterSceneLoadedEvent;
+        //afterSceneLoadedEvent.OnEventCalled -= OnAfterSceneLoadedEvent;
+
+        EventHandler.OnAfterSceneLoadEvent -= OnAfterSceneLoadedEvent;
     }
 
     /// <summary>
@@ -46,6 +50,7 @@ public class CameraControl : MonoBehaviour
     private void OnAfterSceneLoadedEvent()
     {
         GetNewCameraBounds();
+      
     }
 
 
