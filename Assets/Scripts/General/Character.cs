@@ -47,7 +47,6 @@ public class Character : MonoBehaviour
     public UnityEvent<Character> OnHealthChange;
 
 
-
     private void OnEnable()
     {
         //newGameEvent.OnEventCalled += NewGameEvent;
@@ -80,7 +79,19 @@ public class Character : MonoBehaviour
 
             //更新血量
             currentHealth = 0;
-            OnHealthChange?.Invoke(this);
+            //OnHealthChange?.Invoke(this);
+
+            if(this.CompareTag(Tags.PLAYER))
+            {
+                EventHandler.CallHealthChangeEvent(this);
+            }
+            else if(this.CompareTag(Tags.ENEMY))
+            {
+                Enemy enemy = GetComponent<Enemy>();
+                EventHandler.CallEnemyHealthUIBarChangeEvent(this, enemy,enemy.curHealthBar);
+                EventHandler.CallDestroyHealthUIBarEvent(enemy);
+            }
+            
             OnDead?.Invoke();//触发死亡事件
         }
     }
@@ -91,12 +102,17 @@ public class Character : MonoBehaviour
     private void NewGameEvent()
     {
         currentHealth = maxHealth;
-        OnHealthChange?.Invoke(this);
+        //OnHealthChange?.Invoke(this);
+        //EventHandler.CallHealthChangeEvent(this);
 
+        if (this.CompareTag(Tags.PLAYER))
+        {
+            EventHandler.CallHealthChangeEvent(this);
+        }
         
-     
 
     }
+
 
     /// <summary>
     /// 受到伤害  
@@ -110,7 +126,9 @@ public class Character : MonoBehaviour
             //Debug.Log("无敌");
             //return;
         }
-        if(currentHealth - attacker.damage > 0)
+        Enemy enemy = GetComponent<Enemy>();
+
+        if (currentHealth - attacker.damage > 0)
         {
             // 血量在受伤后不会降为0，此时触发受伤无敌状态
             currentHealth -= attacker.damage;
@@ -120,6 +138,12 @@ public class Character : MonoBehaviour
             //Debug.Log(attacker.tag + " currentHealth = " + currentHealth);
             // 执行受伤事件  受伤、被击退等
              OnTakeDamage?.Invoke(attacker.transform);
+
+            if (this.CompareTag(Tags.ENEMY))
+            {
+                // 更新敌人血条
+                EventHandler.CallEnemyHealthUIBarChangeEvent(this, enemy, enemy.curHealthBar);
+            }
         }
         else
         {
@@ -128,8 +152,14 @@ public class Character : MonoBehaviour
             rb.velocity = Vector3.zero;
             // 执行死亡事件  死亡动画、游戏结束等等
             OnDead?.Invoke();
+            if(this.CompareTag(Tags.ENEMY) )
+            {
+                // 销毁血条
+                EventHandler.CallDestroyHealthUIBarEvent(enemy);
+            }
         }
         OnHealthChange?.Invoke(this);
+
         
     }
 

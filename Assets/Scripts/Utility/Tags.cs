@@ -35,4 +35,6 @@ public static class Tags
     /// 可互动的物体，比如门，宝箱等
     /// </summary>
     public static string INTERACTIVE = "Interactive";
+
+    public static string ENEMYHEALTHBAR = "EnemyHealthBar";
 }

@@ -6,7 +6,7 @@ using UnityEngine.ResourceManagement.AsyncOperations;
 using UnityEngine.ResourceManagement.ResourceProviders;
 using UnityEngine.SceneManagement;
 
-public class SceneLoadManagerNew : MonoBehaviour
+public class SceneLoadManagerNew : SingletonMonoBehvior<SceneLoadManagerNew>
 {
 
     [Header("基础参数")]
@@ -33,26 +33,14 @@ public class SceneLoadManagerNew : MonoBehaviour
     /// </summary>
     [SerializeField] private GameSceneSO currentLoadScene;
 
-    [Header("事件监听")]
-    /// <summary>
-    /// 加载场景事件监听
-    /// </summary>
-    public SceneLoadEventSO loadSceneEvent;
-    public VoidEventSO newGameEvent;
+    
 
-    [Header("广播")]
-    /// <summary>
-    /// 场景加载完成后广播的事件
-    /// </summary>
-    public VoidEventSO afterSceneLoadedEvent;
+    [Header("广播")] 
     /// <summary>
     /// 场景加载淡入淡出广播事件
     /// </summary>
     public FadeEventSO fadeEvent;
-    /// <summary>
-    /// 场景卸载事件
-    /// </summary>
-    public SceneLoadEventSO sceneUnloadedEvent;
+    
 
 
     [Header("场景")]
@@ -69,7 +57,7 @@ public class SceneLoadManagerNew : MonoBehaviour
     /// <summary>
     /// 将要加载的场景
     /// </summary>
-    private GameSceneSO sceneToGo;
+    [SerializeField]private GameSceneSO sceneToGo;
     private Vector3 positionToGo;
     private bool fadeScene;
     /// <summary>
@@ -78,12 +66,12 @@ public class SceneLoadManagerNew : MonoBehaviour
     private bool isLoading;
     #endregion
 
-    private void Awake()
+    protected override void Awake()
     {
-
+        base.Awake();
     }
 
-    
+
     private void Start()
     {
         //Debug.Log(player);
@@ -92,6 +80,8 @@ public class SceneLoadManagerNew : MonoBehaviour
         //EventHandler.CallSceneLoadEvent(menuScene, firstEnterGamePlayerPosition, true);
         EventHandler.CallSceneLoadEvent(firstLoadScene, firstEnterGamePlayerPosition, true);
         //NewGame();
+
+        
     }
 
     private void OnEnable()
@@ -186,6 +176,13 @@ public class SceneLoadManagerNew : MonoBehaviour
             // 将player放到预定的位置
             player.transform.position = positionToGo;
             SetPlayerActiveState(true);
+
+            GameObject enemyCanvas = GameObject.Find("EnemyHeaderCanvas");
+            if(enemyCanvas != null)
+            {
+                enemyCanvas.GetComponent<Canvas>().worldCamera = Camera.main;
+            }
+
             // 更新character基本信息 血量等。。。
             EventHandler.CallResetCharacterBasicInfoWhenLoadSceneEvent();
 
@@ -224,10 +221,12 @@ public class SceneLoadManagerNew : MonoBehaviour
         }
         //等待渐入渐出结束后再 继续执行
         yield return new WaitForSeconds(fadeDuration);
-        
+
         // 广播场景卸载事件，UI不显示
         //sceneUnloadedEvent.CallLoadRequestEvent(sceneToGo, positionToGo, true);
-        EventHandler.CallSceneUnloadEvent(sceneToGo,positionToGo, true);
+        //EventHandler.CallSceneUnloadEvent(sceneToGo,positionToGo, true);
+
+        EventHandler.CallSetPlayerStatusBarEvent(sceneToGo);
 
         //卸载当前场景
         yield return currentLoadScene.sceneReference.UnLoadScene();

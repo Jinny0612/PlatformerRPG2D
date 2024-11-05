@@ -8,13 +8,13 @@ using UnityEngine.Events;
 /// <summary>
 /// ui管理
 /// </summary>
-public class UIManager : MonoBehaviour
+public class UIManager : SingletonMonoBehvior<UIManager>
 {
     public PlayerStatusBar playerStatusBar;
 
     [Header("事件监听")]
     /// <summary>
-    /// 血量变化事件监听
+    /// 血量变化事件监听   Character绑定了OnHealthChange事件
     /// </summary>
     public CharacterEventSO healthEvent;
     /// <summary>
@@ -24,28 +24,27 @@ public class UIManager : MonoBehaviour
 
     private void OnEnable()
     {
-        healthEvent.OnEventCalled += OnHealthEvent;
-        //sceneLoadEvent.LoadRequestEvent += OnSceneLoadEvent;
+        //healthEvent.OnEventCalled += OnHealthEvent;
+        EventHandler.OnHealthChangeEvent += OnHealthEvent;
 
-        EventHandler.OnSceneUnloadEvent += OnSceneLoadEvent;
+        //sceneLoadEvent.LoadRequestEvent += SetPlayerStatusBar;
+        EventHandler.OnSetPlayerStatusBarEvent += SetPlayerStatusBar;
     }
 
     private void OnDisable()
     {
-        healthEvent.OnEventCalled -= OnHealthEvent;
-        //sceneLoadEvent.LoadRequestEvent -= OnSceneLoadEvent;
+        //healthEvent.OnEventCalled -= OnHealthEvent;
+        EventHandler.OnHealthChangeEvent -= OnHealthEvent;
 
-        EventHandler.OnSceneUnloadEvent -= OnSceneLoadEvent;
+
+        //sceneLoadEvent.LoadRequestEvent -= SetPlayerStatusBar;
+        EventHandler.OnSetPlayerStatusBarEvent -= SetPlayerStatusBar;
     }
 
     /// <summary>
-    /// 场景加载事件
+    /// 设置player状态ui是否显示
     /// </summary>
-    /// <param name="arg0"></param>
-    /// <param name="arg1"></param>
-    /// <param name="arg2"></param>
-    /// <exception cref="NotImplementedException"></exception>
-    private void OnSceneLoadEvent(GameSceneSO sceneToLoad, Vector3 arg1, bool arg2)
+    private void SetPlayerStatusBar(GameSceneSO sceneToLoad)
     {
         switch (sceneToLoad.sceneType)
         {
@@ -59,8 +58,6 @@ public class UIManager : MonoBehaviour
             default: break;
         }
 
-        
-        
     }
 
     /// <summary>
@@ -72,7 +69,10 @@ public class UIManager : MonoBehaviour
         // 计算百分比
         float persentage = character.currentHealth / character.maxHealth;
         // 发送百分比
-        //todo: 后面再看如何降低耦合
+
+        // player血量变化
         playerStatusBar.OnHealthChange(persentage);
+
+        
     }
 }

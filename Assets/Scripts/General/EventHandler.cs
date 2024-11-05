@@ -43,6 +43,19 @@ public static class EventHandler
         return (Vector3)(OnGetPlayerPosition?.Invoke());
     }
 
+    /// <summary>
+    /// 血量变化
+    /// </summary>
+    public static Action<Character> OnHealthChangeEvent;
+    /// <summary>
+    /// 血量变化
+    /// </summary>
+    /// <param name="character"></param>
+    public static void CallHealthChangeEvent(Character character)
+    {
+        OnHealthChangeEvent?.Invoke(character);
+    }
+
 
     #region 场景切换相关
 
@@ -114,6 +127,38 @@ public static class EventHandler
     public static void CallResetCharacterBasicInfoWhenLoadSceneEvent()
     {
         OnResetCharacterBasicInfoWhenLoadSceneEvent?.Invoke();
+    }
+
+    #endregion
+
+    #region player ui相关
+
+    /// <summary>
+    /// 设置player状态栏
+    /// </summary>
+    public static Action<GameSceneSO> OnSetPlayerStatusBarEvent;
+
+    public static void CallSetPlayerStatusBarEvent(GameSceneSO gameScene)
+    {
+        OnSetPlayerStatusBarEvent?.Invoke(gameScene);
+    }
+
+    #endregion
+
+    #region Enemy UI相关
+
+    public static Action<Character,Enemy,GameObject> OnEnemyHealthUIBarChangeEvent;
+
+    public static void CallEnemyHealthUIBarChangeEvent(Character character,Enemy enemy,GameObject healthBar)
+    {
+        OnEnemyHealthUIBarChangeEvent?.Invoke(character,enemy,healthBar);
+    }
+
+    public static Action<Enemy> OnDestroyHealthUIBarEvent;
+
+    public static void CallDestroyHealthUIBarEvent(Enemy enemy)
+    {
+        OnDestroyHealthUIBarEvent?.Invoke(enemy);
     }
 
     #endregion

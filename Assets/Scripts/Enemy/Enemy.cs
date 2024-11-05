@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.Events;
+using UnityEngine.PlayerLoop;
+using UnityEngine.UI;
 
 /// <summary>
 /// 敌人基础控制类
@@ -43,6 +45,20 @@ public class Enemy : MonoBehaviour
     /// 触发远程攻击的距离
     /// </summary>
     public float remoteDistance;
+
+    [Header("血条管理")]
+    /// <summary>
+    /// 血条位置相对于enemy中心点的偏移量
+    /// </summary>
+    public Vector2 healthBarOffset;
+    /// <summary>
+    /// 血条预制体
+    /// </summary>
+    public GameObject healthPrefab;
+    /// <summary>
+    /// 生成的血条实例
+    /// </summary>
+    public GameObject curHealthBar;
 
     /// <summary>
     /// 攻击敌人的对象
@@ -184,16 +200,24 @@ public class Enemy : MonoBehaviour
 
     }
 
+    private void Start()
+    {
+
+    }
+
     private void OnEnable()
     {
         // 默认为巡逻状态
         currentState = patrolState;
         currentState.OnEnter(this);
+
+        //EventHandler.OnEnemyHealthUIBarChangeEvent += InstantiateHealthBar;
     }
 
     private void OnDisable()
     {
         currentState.OnExit();
+        //EventHandler.OnEnemyHealthUIBarChangeEvent -= InstantiateHealthBar;
     }
 
     private void Update()
@@ -225,6 +249,16 @@ public class Enemy : MonoBehaviour
 
         #endregion
 
+        #region 血条变化  随着enemy移动，只有enemy可以移动时才更新
+
+        // 不传character时只更新位置
+        if (curHealthBar != null)
+        {
+            EventHandler.CallEnemyHealthUIBarChangeEvent(null, this, curHealthBar);
+        }
+
+        #endregion
+
         TimeCounter();
 
         currentState.LogicUpdate();
@@ -237,8 +271,12 @@ public class Enemy : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if(!isHurt && !isMelee && !isRemoted && !isDead && !wait)
+        if (!isHurt && !isMelee && !isRemoted && !isDead && !wait)
+        {
             Move();
+
+            
+        }
         currentState.PhysicsUpdate();
     }
 
@@ -455,6 +493,17 @@ public class Enemy : MonoBehaviour
         isRemoted = false;
     }
 
+    /// <summary>
+    /// 生成对应的血条实例
+    /// </summary>
+    /*public void InstantiateHealthBar(Character character,Enemy enemy)
+    {
+        if(curHealthBar == null)
+        {
+            Vector2 screenPosition = Camera.main.WorldToScreenPoint(healthBarTrans.position);
+            curHealthBar = Instantiate(healthPrefab, screenPosition, Quaternion.identity, GameObject.Find("EnemyHeaderCanvas")?.transform);
+        }
+    }*/
 
     #endregion
 
@@ -471,5 +520,7 @@ public class Enemy : MonoBehaviour
 
         Gizmos.color = Color.yellow;
         Gizmos.DrawLine(startPoint, endPoint);
+
+        Gizmos.DrawWireSphere(transform.position + (Vector3)healthBarOffset, 0.2f);
     }
 }
