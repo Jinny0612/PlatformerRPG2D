@@ -72,8 +72,17 @@ public static class EventHandler
         OnCreateNotificationEvent?.Invoke(type, quantity, itemCode);
     }
 
+    /// <summary>
+    /// 通知显示倒计时结束时删除通知
+    /// </summary>
+    public static Action<GameObject> OnDeleteNotificationAfterTimeCount;
+    public static void CallDeleteNotificationAfterTimeCount(GameObject notification)
+    {
+        OnDeleteNotificationAfterTimeCount?.Invoke(notification);
+    }
+
     #endregion
-    
+
     /// <summary>
     /// 定义获取player坐标的委托
     /// </summary>

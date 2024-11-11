@@ -25,7 +25,6 @@ public class EnemyManager : SingletonMonoBehvior<EnemyManager>
             foreach(EnemyInfo info in enemyInfoSO.Enemies)
             {
                 enemyInfoDictionary.Add(info.enemyCode, info);
-                Debug.Log(info.enemyCode + info.enemyName + info.killExp);
             }
         }
         else

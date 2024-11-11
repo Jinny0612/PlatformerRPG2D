@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 
 /// <summary>
@@ -21,11 +22,11 @@ public class UIManager : SingletonMonoBehvior<UIManager>
     /// <summary>
     /// 提醒队列
     /// </summary>
-    public Queue<GameObject> notificationQueue = new Queue<GameObject>();
+    public Queue<GameObject> notificationQueue;
     /// <summary>
     /// k- itemcode v-提醒UI预制体
     /// </summary>
-    private Dictionary<int,GameObject> notificationDictionary = new Dictionary<int,GameObject>();
+    private Dictionary<int,GameObject> notificationDictionary;
     /// <summary>
     /// 队列最大长度
     /// </summary>
@@ -37,7 +38,7 @@ public class UIManager : SingletonMonoBehvior<UIManager>
     /// <summary>
     /// 提醒通知预制体类型字典
     /// </summary>
-    private Dictionary<NotificationType,GameObject> notificationPrefabDict = new Dictionary<NotificationType,GameObject>();
+    private Dictionary<NotificationType,GameObject> notificationPrefabDict;
 
     //[Header("事件监听")]
     /// <summary>
@@ -52,6 +53,10 @@ public class UIManager : SingletonMonoBehvior<UIManager>
     protected override void Awake()
     {
         base.Awake();
+
+        notificationQueue = new Queue<GameObject>();
+        notificationDictionary = new Dictionary<int, GameObject>();
+        notificationPrefabDict = new Dictionary<NotificationType, GameObject>();
 
         InitializedNotificationPrefabDictionary();
     }
@@ -68,6 +73,7 @@ public class UIManager : SingletonMonoBehvior<UIManager>
         EventHandler.OnPlayerGoldCoinChangeEvent += OnPlayerGoldCoinChangeEvent;
 
         EventHandler.OnCreateNotificationEvent += CreateNotification;
+        EventHandler.OnDeleteNotificationAfterTimeCount += DeleteNotification;
     }
 
     private void OnDisable()
@@ -83,6 +89,7 @@ public class UIManager : SingletonMonoBehvior<UIManager>
         EventHandler.OnPlayerGoldCoinChangeEvent -= OnPlayerGoldCoinChangeEvent;
 
         EventHandler.OnCreateNotificationEvent -= CreateNotification;
+        EventHandler.OnDeleteNotificationAfterTimeCount -= DeleteNotification;
     }
 
     /// <summary>
@@ -179,16 +186,80 @@ public class UIManager : SingletonMonoBehvior<UIManager>
     /// <param name="enemyInfo"></param>
     private void CreateNotification(NotificationType type,int num,int itemCode)
     {
-        GameObject prefab = GetNotificationPrefabByType(type);
-        GameObject instance = Instantiate(prefab, notificationParentTransform);
-        if(instance != null)
+        GameObject instance = null;
+        ItemDetails itemDetail = InventoryManager.Instance.GetItemDetailByCode(itemCode);
+
+        if (notificationDictionary.ContainsKey(itemCode))
+        {
+            // 当前物体的通知存在，取出这条通知
+            GameObject firstGameObject = notificationQueue.First();
+            ItemNotification firstNotification = firstGameObject.GetComponent<ItemNotification>();
+
+            if (firstNotification != null && firstNotification.itemCode == itemCode)
+            {
+                // 当前物体编号为队首，出队、更新数量、插入队尾
+                //出队
+                notificationQueue.Dequeue();
+                instance = firstGameObject;
+            }
+            else
+            {
+                // 遍历队列，从中取出对应的元素，更新信息后插入队尾
+                List<GameObject> tempList = notificationQueue.ToList<GameObject>();
+                foreach(GameObject item in notificationQueue)
+                {
+                    ItemNotification info = item.GetComponent<ItemNotification>();
+                    if(info.itemCode == itemCode)
+                    {
+                        // 取出对应的元素
+                        instance = item;
+                        tempList.Remove(item);
+                    }
+                }
+                // 更新队列，不包含与itemCode相同的元素
+                notificationQueue.Clear();
+                notificationQueue = new Queue<GameObject>(tempList);
+                
+            }
+        }
+        else
+        {
+            GameObject prefab = GetNotificationPrefabByType(type);
+            instance = Instantiate(prefab, notificationParentTransform);
+
+        }
+
+        // 更新数量、插入队尾
+        if (instance != null)
         {
             ItemNotification itemNotification = instance.GetComponent<ItemNotification>();
 
-            ItemDetails itemDetail = InventoryManager.Instance.GetItemDetailByCode(itemCode);
-
             itemNotification.SetItemNotification(num, itemDetail.itemSprite, itemDetail.itemDescription);
+
+            if (notificationQueue.Count == maxLength)
+            {
+                // 队列满了，队首出队
+                GameObject removeGameObject = notificationQueue.Dequeue();
+                notificationDictionary.Remove(removeGameObject.GetComponent<ItemNotification>().itemCode);
+            }
+            // 插入队列
+            notificationQueue.Enqueue(instance);
+            notificationDictionary[itemCode] = instance;
+
         }
+    }
+
+    /// <summary>
+    /// 删除通知  用于通知显示倒计时的时候使用,一般是删除队首元素
+    /// </summary>
+    /// <param name="notification"></param>
+    private void DeleteNotification(GameObject notification)
+    {
+        //出队
+        notificationQueue.Dequeue();
+
+        //删除字典中的元素
+        notificationDictionary.Remove(notification.GetComponent<ItemNotification>().itemCode);
     }
 
 }

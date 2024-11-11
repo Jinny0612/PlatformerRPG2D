@@ -30,7 +30,25 @@ public class ItemNotification : MonoBehaviour
     /// 提醒类型
     /// </summary>
     public NotificationType notificationType;
+    /// <summary>
+    /// 提醒显示时长
+    /// </summary>
+    private float visiableTime;
+    /// <summary>
+    /// 提醒显示时长倒计时
+    /// </summary>
+    private float visiableTimeCounter;
 
+    private void Awake()
+    {
+        visiableTime = 3f;
+        visiableTimeCounter = visiableTime;
+    }
+
+    private void Update()
+    {
+        TimeCounter();
+    }
 
     /// <summary>
     /// 设置显示的信息
@@ -45,6 +63,26 @@ public class ItemNotification : MonoBehaviour
         {
             itemSpriteRenderer.sprite = itemSprite;
             this.itemDescription.text = itemDescription;
+        }
+
+        //重置显示时长
+        visiableTimeCounter = visiableTime;
+    }
+
+    /// <summary>
+    /// 计时器
+    /// </summary>
+    private void TimeCounter()
+    {
+        if(visiableTimeCounter <= 0)
+        {
+            // 倒计时结束，不可见，删除这个通知，从队列中也删除
+            Destroy(gameObject);
+            EventHandler.OnDeleteNotificationAfterTimeCount(gameObject);
+        }
+        else
+        {
+            visiableTimeCounter -= Time.deltaTime;
         }
     }
 }
