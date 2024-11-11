@@ -121,6 +121,19 @@ public class EnemyHealthBarManager : SingletonMonoBehvior<EnemyHealthBarManager>
                 // 更新血量
                 SetHealthBarFillAmount(character, enemy, healthBar);
             }
+
+        }
+
+        // 只有血量变化时才会传character  这时才会触发ui可见的逻辑
+        // todo: 后续考虑是否可以增加一个血量是否变化的参数来判断
+        if(character != null)
+        {
+            enemy.ResetHealtharBarInvisiableTime();
+            if (!enemy.curHealthBar.activeInHierarchy)
+            {
+                // 不可见，设置为可见
+                enemy.curHealthBar.SetActive(true);
+            }
         }
         
     }

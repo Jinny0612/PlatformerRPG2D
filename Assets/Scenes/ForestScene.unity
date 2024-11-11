@@ -1575,7 +1575,7 @@ Tilemap:
       - {fileID: 278434433, guid: 5e86ea05e008eb54999f443a266aef05, type: 3}
       - {fileID: -1878475722, guid: 5e86ea05e008eb54999f443a266aef05, type: 3}
       - {fileID: -762966509, guid: 5e86ea05e008eb54999f443a266aef05, type: 3}
-      m_AnimationSpeed: 5
+      m_AnimationSpeed: 5.0000005
       m_AnimationTimeOffset: 0
       m_Flags: 0
   - first: {x: 4, y: -5, z: 0}
@@ -60449,6 +60449,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsCheck: {fileID: 0}
+  enemyCode: 10001
   normalSpeed: 100
   chaseSpeed: 150
   currentSpeed: 0
@@ -60456,12 +60457,21 @@ MonoBehaviour:
   hurtForce: 5
   meleeDistance: 0.8
   remoteDistance: 1.5
+  enemyInfo:
+    enemyCode: 0
+    enemyName: 
+    killExp: 0
+    minCoin: 0
+    maxCoin: 0
+    enemyDropItemList: []
   healthBarOffset: {x: 0, y: 1.8}
   healthPrefab: {fileID: 6848554372653962595, guid: 01fdf58a1ae78b64ba5b4c931d9b66c1, type: 3}
   curHealthBar: {fileID: 0}
   waitTime: 1
   waitTimeCounter: 0
   wait: 0
+  invisiableUITime: 1
+  invisiableUITimeCounter: 0
   lostTime: 3
   lostTimeCounter: 0
   meleeCD: 2.5
@@ -99060,6 +99070,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsCheck: {fileID: 0}
+  enemyCode: 10001
   normalSpeed: 100
   chaseSpeed: 150
   currentSpeed: 0
@@ -99067,12 +99078,21 @@ MonoBehaviour:
   hurtForce: 5
   meleeDistance: 0.8
   remoteDistance: 1.5
+  enemyInfo:
+    enemyCode: 0
+    enemyName: 
+    killExp: 0
+    minCoin: 0
+    maxCoin: 0
+    enemyDropItemList: []
   healthBarOffset: {x: 0, y: 1.8}
   healthPrefab: {fileID: 6848554372653962595, guid: 01fdf58a1ae78b64ba5b4c931d9b66c1, type: 3}
   curHealthBar: {fileID: 0}
   waitTime: 1
   waitTimeCounter: 0
   wait: 0
+  invisiableUITime: 3
+  invisiableUITimeCounter: 0
   lostTime: 3
   lostTimeCounter: 0
   meleeCD: 2.5
@@ -100271,6 +100291,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   physicsCheck: {fileID: 0}
+  enemyCode: 0
   normalSpeed: 100
   chaseSpeed: 150
   currentSpeed: 0
@@ -100278,12 +100299,21 @@ MonoBehaviour:
   hurtForce: 5
   meleeDistance: 3.2
   remoteDistance: 0
+  enemyInfo:
+    enemyCode: 0
+    enemyName: 
+    killExp: 0
+    minCoin: 0
+    maxCoin: 0
+    enemyDropItemList: []
   healthBarOffset: {x: 0, y: 0}
   healthPrefab: {fileID: 0}
   curHealthBar: {fileID: 0}
   waitTime: 1
   waitTimeCounter: 0
   wait: 0
+  invisiableUITime: 0
+  invisiableUITimeCounter: 0
   lostTime: 3
   lostTimeCounter: 0
   meleeCD: 2.5

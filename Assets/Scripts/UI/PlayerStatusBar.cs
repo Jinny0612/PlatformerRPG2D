@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -24,6 +25,14 @@ public class PlayerStatusBar : MonoBehaviour
     /// 当前精力末端
     /// </summary>
     public Image energyCurrentStartImage;
+    /// <summary>
+    /// 玩家等级
+    /// </summary>
+    public TextMeshProUGUI levelText;
+    /// <summary>
+    /// 持有金币数量
+    /// </summary>
+    public TextMeshProUGUI goldCoinText;
 
     private float healthBarWidth;
 
@@ -31,6 +40,8 @@ public class PlayerStatusBar : MonoBehaviour
     {
         healthBarWidth = healthImage.rectTransform.rect.width;
         healthCurrentEndImage.rectTransform.localPosition = new Vector3(healthBarWidth * healthImage.fillAmount, healthCurrentEndImage.rectTransform.localPosition.y);
+        levelText.text = "0";
+        goldCoinText.text = "0";
     }
 
     private void Update()
@@ -47,5 +58,23 @@ public class PlayerStatusBar : MonoBehaviour
     public void OnHealthChange(float persentage)
     {
         healthImage.fillAmount = persentage;
+    }
+
+    /// <summary>
+    /// 玩家等级变化
+    /// </summary>
+    /// <param name="level"></param>
+    public void SetPlayerLevel(int level)
+    {
+        levelText.text = level.ToString();  
+    }
+
+    /// <summary>
+    /// 玩家金币变化
+    /// </summary>
+    /// <param name="coin"></param>
+    public void SetPlayerCoin(int coin)
+    {
+        goldCoinText.text = coin.ToString();
     }
 }

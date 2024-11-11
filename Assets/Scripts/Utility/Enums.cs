@@ -62,5 +62,32 @@ public enum ItemType
     /// <summary>
     /// 食物
     /// </summary>
-    Food
+    Food,
+    /// <summary>
+    /// 经验
+    /// </summary>
+    Exp,
+    /// <summary>
+    /// 金币
+    /// </summary>
+    Coin
+}
+
+/// <summary>
+/// 提醒类型
+/// </summary>
+public enum NotificationType
+{
+    /// <summary>
+    /// 经验值
+    /// </summary>
+    Exp,
+    /// <summary>
+    /// 金币
+    /// </summary>
+    Coin,
+    /// <summary>
+    /// 拾取物品
+    /// </summary>
+    Item
 }

@@ -5,14 +5,7 @@ using UnityEngine.Events;
 
 public class Character : MonoBehaviour
 {
-    /// <summary>
-    /// 无敌策略
-    /// </summary>
-    private IInvulnerabilityStrategy invulnerabilityStrategy;
-    /// <summary>
-    /// 无敌计时器管理
-    /// </summary>
-    private InvulnerabilityManager invulnerabilityManager;
+    
 
     [Header("事件监听")]
     /// <summary>
@@ -56,7 +49,7 @@ public class Character : MonoBehaviour
 
     private void Start()
     {
-        invulnerabilityManager = InvulnerabilityManager.Instance;
+        
     }
 
     private void OnDisable()
@@ -120,59 +113,29 @@ public class Character : MonoBehaviour
     /// <param name="attacker">攻击者</param>
     public void TakeDamage(Attack attacker)
     {
-        //if (invulnerabilityManager != null && invulnerabilityManager.IsInvulnerable(this))
-        {
-            // 无敌状态，无受伤逻辑
-            //Debug.Log("无敌");
-            //return;
-        }
-        Enemy enemy = GetComponent<Enemy>();
+        
 
         if (currentHealth - attacker.damage > 0)
         {
             // 血量在受伤后不会降为0，此时触发受伤无敌状态
             currentHealth -= attacker.damage;
-            // 受到伤害时，角色暂时无敌
-            invulnerabilityStrategy = InvulnerabilityStrategyFactory.GetStrategy(InvulnerabilityType.Damage,this);
-            invulnerabilityStrategy?.TriggerInvulnerable(this,InvulnerabilityType.Damage);
-            //Debug.Log(attacker.tag + " currentHealth = " + currentHealth);
             // 执行受伤事件  受伤、被击退等
              OnTakeDamage?.Invoke(attacker.transform);
 
-            if (this.CompareTag(Tags.ENEMY))
-            {
-                // 更新敌人血条
-                EventHandler.CallEnemyHealthUIBarChangeEvent(this, enemy, enemy.curHealthBar);
-            }
         }
         else
         {
             currentHealth = 0;
             // 重置速度，避免死亡还出现一定位移的问题
             rb.velocity = Vector3.zero;
+
             // 执行死亡事件  死亡动画、游戏结束等等
             OnDead?.Invoke();
-            if(this.CompareTag(Tags.ENEMY) )
-            {
-                // 销毁血条
-                EventHandler.CallDestroyHealthUIBarEvent(enemy);
-            }
         }
         OnHealthChange?.Invoke(this);
-
         
     }
 
-    /// <summary>
-    /// 闪现无敌
-    /// </summary>
-    public void InvulnerableDash()
-    {
-        // 闪现无敌
-        EventHandler.CallPlayerDash();
-        invulnerabilityStrategy = InvulnerabilityStrategyFactory.GetStrategy(InvulnerabilityType.Dash, this);
-        invulnerabilityStrategy?.TriggerInvulnerable(this,InvulnerabilityType.Dash);
-        
-    }
+    
 
 }

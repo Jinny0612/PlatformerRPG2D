@@ -18,6 +18,12 @@ public class Enemy : MonoBehaviour
 
     [Header("基本参数")]
     /// <summary>
+    /// 敌人编号
+    /// </summary>
+    [EnemyCodeDescription]
+    public int enemyCode;
+
+    /// <summary>
     /// 移动速度
     /// </summary>
     public float normalSpeed;
@@ -45,6 +51,10 @@ public class Enemy : MonoBehaviour
     /// 触发远程攻击的距离
     /// </summary>
     public float remoteDistance;
+    /// <summary>
+    /// 配置的enemy信息
+    /// </summary>
+    [SerializeField] private EnemyInfo enemyInfo;
 
     [Header("血条管理")]
     /// <summary>
@@ -80,6 +90,15 @@ public class Enemy : MonoBehaviour
     /// 是否在等待
     /// </summary>
     public bool wait;
+    /// <summary>
+    /// 头部血条不可见时间  例如持续多久不受到攻击就变为不可见
+    /// </summary>
+    public float invisiableUITime;
+    /// <summary>
+    /// 不可见时间计时器
+    /// </summary>
+    public float invisiableUITimeCounter;
+
 
     /// <summary>
     /// 丢失追击的player时间
@@ -202,7 +221,7 @@ public class Enemy : MonoBehaviour
 
     private void Start()
     {
-
+        enemyInfo = EnemyManager.Instance.GetEnemyInfoByCode(enemyCode);
     }
 
     private void OnEnable()
@@ -333,7 +352,34 @@ public class Enemy : MonoBehaviour
         }
 
         #endregion
+
+        #region 头部血条计时器
+        if(curHealthBar != null)
+        {
+            if (invisiableUITimeCounter > 0)
+            {
+                // 倒计时
+                invisiableUITimeCounter -= Time.deltaTime;
+            }
+            else
+            {
+                curHealthBar.SetActive(false);
+            }
+        }
+        
+
+        #endregion
     }
+
+    /// <summary>
+    /// 头部血条计时器重置
+    /// </summary>
+    public void ResetHealtharBarInvisiableTime()
+    {
+        invisiableUITimeCounter = invisiableUITime;
+    }
+
+
 
     /// <summary>
     /// 重置计时器相关参数  敌人可以移动
@@ -427,6 +473,9 @@ public class Enemy : MonoBehaviour
     {
         attacker = attackTrans;
 
+        // 更新敌人血条
+        EventHandler.CallEnemyHealthUIBarChangeEvent(GetComponent<Character>(), this, curHealthBar);
+
         // player在敌人背后攻击，敌人需要立即掉头
         if ((transform.localScale.x < 0 && attacker.position.x - transform.position.x > 0)
             || (transform.localScale.x > 0 && attacker.position.x - transform.position.x < 0))
@@ -466,6 +515,18 @@ public class Enemy : MonoBehaviour
         //TODO:感觉也可以在死亡动画开始就将这个死亡的敌人碰撞体改为不启用，后续对比一下
         gameObject.layer = 2;
         isDead = true;
+
+        // 销毁血条
+        EventHandler.CallDestroyHealthUIBarEvent(this);
+
+        #region 掉落配置好的物品
+
+        // todo: 先生成经验增加和金币增加的提醒
+        DropExpAndCoinAfterDead();
+        // todo: 再掉落物品，拾取后再生成对应的提醒
+
+        #endregion
+
     }
 
     /// <summary>
@@ -493,17 +554,47 @@ public class Enemy : MonoBehaviour
         isRemoted = false;
     }
 
+
+
+    #endregion
+
+    #region 私有方法
+
     /// <summary>
-    /// 生成对应的血条实例
+    /// 死亡掉落经和金币
     /// </summary>
-    /*public void InstantiateHealthBar(Character character,Enemy enemy)
+    private void DropExpAndCoinAfterDead()
     {
-        if(curHealthBar == null)
+        // 经验
+        DropExp();
+        //todo: 经验提醒
+
+        // 金币
+        DropCoin();
+        //todo: 金币提醒
+
+    }
+
+    /// <summary>
+    /// 死亡player经验增加
+    /// </summary>
+    private void DropExp()
+    {
+        EventHandler.CallSetPlayerExpEvent(enemyInfo.killExp);
+    }
+
+    /// <summary>
+    /// 死亡player金币增加
+    /// </summary>
+    private void DropCoin()
+    {
+        int quantity = enemyInfo.minCoin;
+        if(enemyInfo.maxCoin > 0)
         {
-            Vector2 screenPosition = Camera.main.WorldToScreenPoint(healthBarTrans.position);
-            curHealthBar = Instantiate(healthPrefab, screenPosition, Quaternion.identity, GameObject.Find("EnemyHeaderCanvas")?.transform);
+            quantity = Random.Range(enemyInfo.minCoin, enemyInfo.maxCoin + 1);
         }
-    }*/
+        EventHandler.CallSetPlayerCoinEvent(quantity);
+    }
 
     #endregion
 

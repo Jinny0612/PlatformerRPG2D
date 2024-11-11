@@ -59,7 +59,20 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
     /// 受伤时对角色施加一个受击方向的推力
     /// </summary>
     public float hurtForce;
-    
+
+    /// <summary>
+    /// 玩家当前经验
+    /// </summary>
+    [SerializeField] private int playerExp;
+    /// <summary>
+    /// 玩家当前等级
+    /// </summary>
+    [SerializeField] private int playerLvl;
+    /// <summary>
+    /// 玩家当前持有金币数
+    /// </summary>
+    [SerializeField] private int goldCoinQuantity;
+
 
     [Header("物理材质")]
     /// <summary>
@@ -141,6 +154,9 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
 
         EventHandler.OnSceneLoadEvent += OnLoadSceneEvent;
         EventHandler.OnAfterSceneLoadEvent += OnAfterSceneLoadEvent;
+
+        EventHandler.OnSetPlayerExpEvent += SetPlayerExp;
+        EventHandler.OnSetPlayerCoinEvent += SetGoldCoinQuantity;
     }
 
     private void OnDisable()
@@ -152,6 +168,9 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
 
         EventHandler.OnSceneLoadEvent -= OnLoadSceneEvent;
         EventHandler.OnAfterSceneLoadEvent -= OnAfterSceneLoadEvent;
+
+        EventHandler.OnSetPlayerExpEvent -= SetPlayerExp;
+        EventHandler.OnSetPlayerCoinEvent -= SetGoldCoinQuantity;
     }
 
     // Start is called before the first frame update
@@ -178,6 +197,8 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
 
     #endregion
 
+
+    #region 角色移动相关
     /// <summary>
     /// 角色移动
     /// </summary>
@@ -220,6 +241,69 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
         coll.sharedMaterial = physicsCheck.isGround ? normal : wall;
     }
 
+    #endregion
+
+
+    #region 玩家基础属性相关
+    /// <summary>
+    /// 获取玩家当前等级
+    /// </summary>
+    /// <returns></returns>
+    public int GetPlayerCurLvl()
+    {
+        return playerLvl;
+    }
+
+    /// <summary>
+    /// 获取玩家当前金币数
+    /// </summary>
+    /// <returns></returns>
+    public int GetPlayerGoldCoinQuantity()
+    {
+        return goldCoinQuantity;
+    }
+
+    /// <summary>
+    /// 更新玩家经验值
+    /// </summary>
+    /// <param name="exp"></param>
+    public void SetPlayerExp(int exp)
+    {
+        playerExp += exp;
+        EventHandler.CallCreateNotificationEvent(NotificationType.Exp, exp, 20000);
+        // 循环判断，保证即使在短时间内获取过多经验导致需要多次提升等级时也能正确显示
+        while (true)
+        {
+            int maxExp = PlayerManager.Instance.GetMaxExpInCurLevel(playerLvl);
+            // 当前经验值已经达到当前等级最大经验值，等级提升
+            if (playerExp >= maxExp)
+            {
+                //玩家等级增加
+                playerLvl++;
+                //当前经验值需要扣去上一等级最大经验值
+                playerExp -= maxExp;
+                EventHandler.CallPlayerLevelChangeEvent(playerLvl);
+                //todo:经验增加音效
+            }
+            else
+            {
+                break;
+            }
+        }
+    }
+
+    /// <summary>
+    /// 更新玩家持有金币数
+    /// </summary>
+    /// <param name="quantity">可以为负数，负数时金币减少</param>
+    public void SetGoldCoinQuantity(int quantity)
+    {
+        goldCoinQuantity += quantity;
+        EventHandler.CallPlayerGoldCoinChangeEvent(goldCoinQuantity);
+        EventHandler.CallCreateNotificationEvent(NotificationType.Coin, quantity, 20001);
+        //todo: 金币增加音效
+    }
+    #endregion
 
     #region 事件绑定方法
 
