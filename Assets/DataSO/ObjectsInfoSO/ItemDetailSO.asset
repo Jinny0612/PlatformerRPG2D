@@ -17,9 +17,212 @@ MonoBehaviour:
     itemType: 3
     itemDescription: Exp
     itemSprite: {fileID: 0}
+    prefab: {fileID: 0}
     itemLongDescription: 
+    isPickable: 0
+    canBeDropped: 0
+    itemValuesList: []
   - itemCode: 20001
     itemType: 4
     itemDescription: "\u83B7\u5F97\u7684\u91D1\u5E01"
     itemSprite: {fileID: -634353981, guid: 621b21cea17046a41a642c4c226d9658, type: 3}
+    prefab: {fileID: 0}
     itemLongDescription: 
+    isPickable: 0
+    canBeDropped: 0
+    itemValuesList: []
+  - itemCode: 20002
+    itemType: 1
+    itemDescription: "\u5C0F\u74F6\u6062\u590D\u836F\u6C34"
+    itemSprite: {fileID: 1586821766, guid: f6654547feb7aea469459accec8bb4a9, type: 3}
+    prefab: {fileID: 8735375363326285337, guid: 6f064030ad61fbb41a4f77a4f867900e, type: 3}
+    itemLongDescription: "\u53EF\u56DE\u590D\u5C11\u91CF\u8840\u91CF"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 0
+      value: 20
+      isPercentage: 0
+  - itemCode: 20003
+    itemType: 1
+    itemDescription: "\u5927\u74F6\u6062\u590D\u836F\u6C34"
+    itemSprite: {fileID: 778258548, guid: f6654547feb7aea469459accec8bb4a9, type: 3}
+    prefab: {fileID: 1657213935670853189, guid: a67cde2bc0e38394facda1d80c24b2f3, type: 3}
+    itemLongDescription: "\u53EF\u56DE\u590D\u5927\u91CF\u8840\u91CF"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 0
+      value: 50
+      isPercentage: 0
+  - itemCode: 20004
+    itemType: 1
+    itemDescription: "\u5C0F\u74F6\u7CBE\u529B\u836F\u6C34"
+    itemSprite: {fileID: -982587582, guid: f6654547feb7aea469459accec8bb4a9, type: 3}
+    prefab: {fileID: 1906099025828205004, guid: 38aaacb0aeb42c64c8ef4d9ac14cf3b5, type: 3}
+    itemLongDescription: "\u53EF\u56DE\u590D\u5C11\u91CF\u7CBE\u529B"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 1
+      value: 10
+      isPercentage: 0
+  - itemCode: 20005
+    itemType: 1
+    itemDescription: "\u5927\u74F6\u7CBE\u529B\u836F\u6C34"
+    itemSprite: {fileID: -61043841, guid: f6654547feb7aea469459accec8bb4a9, type: 3}
+    prefab: {fileID: 9049595417549552721, guid: a9012b4d025a44341ba434dda088b77c, type: 3}
+    itemLongDescription: "\u53EF\u56DE\u590D\u5927\u91CF\u7CBE\u529B"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 1
+      value: 20
+      isPercentage: 0
+  - itemCode: 20006
+    itemType: 0
+    itemDescription: "\u8001\u65E7\u7684\u5251"
+    itemSprite: {fileID: 813030983, guid: f6654547feb7aea469459accec8bb4a9, type: 3}
+    prefab: {fileID: 6245767295409413765, guid: 1138eb1039ba7a442ab5228e373c8956, type: 3}
+    itemLongDescription: "\u4F7F\u7528\u8FC7\u8BB8\u591A\u5E74\uFF0C\u975E\u5E38\u987A\u624B"
+    isPickable: 1
+    canBeDropped: 0
+    itemValuesList:
+    - valueType: 2
+      value: 5
+      isPercentage: 0
+  - itemCode: 20007
+    itemType: 0
+    itemDescription: "\u5D2D\u65B0\u7684\u5251"
+    itemSprite: {fileID: -1268921811, guid: f6654547feb7aea469459accec8bb4a9, type: 3}
+    prefab: {fileID: 2641426341442397877, guid: f7fd2a66d6ae67b4484ac66145521c58, type: 3}
+    itemLongDescription: "\u65B0\u6253\u9020\u51FA\u7684\u5251\uFF0C\u6CA1\u6709\u4EFB\u4F55\u4F7F\u7528\u75D5\u8FF9\uFF0C\u975E\u5E38\u950B\u5229"
+    isPickable: 1
+    canBeDropped: 0
+    itemValuesList:
+    - valueType: 2
+      value: 10
+      isPercentage: 0
+  - itemCode: 20008
+    itemType: 2
+    itemDescription: "\u82F9\u679C"
+    itemSprite: {fileID: 21300000, guid: fa5d93dea22c0d34e94ac2dc638ebc68, type: 3}
+    prefab: {fileID: 8939444957917770999, guid: c0c542443aa87fa489a8f215062d6737, type: 3}
+    itemLongDescription: "\u65B0\u9C9C\u7684\u82F9\u679C\uFF0C\u5403\u4E86\u53EF\u4EE5\u6062\u590D\u8840\u91CF\u548C\u7CBE\u529B"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 0
+      value: 5
+      isPercentage: 0
+    - valueType: 1
+      value: 5
+      isPercentage: 0
+  - itemCode: 20009
+    itemType: 2
+    itemDescription: "\u9999\u8549"
+    itemSprite: {fileID: 21300000, guid: 870af8a238fa56f4e8df4a5d64e193a7, type: 3}
+    prefab: {fileID: 5098797694097465144, guid: f0a5b47ff2920774ba27f998a2b3f1d7, type: 3}
+    itemLongDescription: "\u65B0\u9C9C\u7684\u9999\u8549\uFF0C\u5403\u4E86\u53EF\u4EE5\u6062\u590D\u8840\u91CF\u548C\u7CBE\u529B"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 0
+      value: 5
+      isPercentage: 0
+    - valueType: 1
+      value: 5
+      isPercentage: 0
+  - itemCode: 20010
+    itemType: 2
+    itemDescription: "\u82F9\u679C\u6D3E"
+    itemSprite: {fileID: 21300000, guid: b5633e662f44be745ae813d9d8f9deff, type: 3}
+    prefab: {fileID: 4144352100995624781, guid: 8701c3c0bab4aab41ba8bb31c2d6f307, type: 3}
+    itemLongDescription: "\u9999\u55B7\u55B7\u7684\u82F9\u679C\u6D3E\uFF0C\u5927\u5BB6\u90FD\u7231\u5403\uFF0C\u4F46\u662F\u4E3A\u4EC0\u4E48\u8FD9\u91CC\u4F1A\u6709\u76D8\u5B50\u554A\u2026\u2026"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 0
+      value: 15
+      isPercentage: 0
+  - itemCode: 20011
+    itemType: 2
+    itemDescription: "\u6C49\u5821"
+    itemSprite: {fileID: 21300000, guid: 3b1b491996346504db2b4bdc0adfed76, type: 3}
+    prefab: {fileID: 8828130890437340837, guid: 36331e09f02a23749a6a59a90a5cc2e7, type: 3}
+    itemLongDescription: "\u5947\u602A\uFF0C\u4E3A\u4EC0\u4E48\u8FD9\u4E2A\u6C49\u5821\u8FD8\u662F\u70ED\u7684"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 0
+      value: 15
+      isPercentage: 0
+  - itemCode: 20012
+    itemType: 2
+    itemDescription: "\u51B0\u6DC7\u6DCB"
+    itemSprite: {fileID: 21300000, guid: 328a0b603c2103b4c80ff9e41590d227, type: 3}
+    prefab: {fileID: 7316967580238565526, guid: 8ebd88e0a9c8b194a8607875292df290, type: 3}
+    itemLongDescription: "\u8D76\u7D27\u5403\u6389\uFF0C\u9A6C\u4E0A\u5C31\u8981\u5316\u6389\u5566"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 1
+      value: 15
+      isPercentage: 0
+  - itemCode: 20013
+    itemType: 2
+    itemDescription: "\u70E4\u9E21"
+    itemSprite: {fileID: 21300000, guid: 32a87f3998bc9744891a3af3af7d7d26, type: 3}
+    prefab: {fileID: 300438679520635266, guid: a31813ffa0b9e3e4693444234636da14, type: 3}
+    itemLongDescription: "\u53E3\u6C34\u90FD\u8981\u6D41\u51FA\u6765\u4E86\uFF0C\u5916\u9165\u91CC\u5AE9\u7684\u70E4\u9E21\u6211\u4E00\u53E3\u80FD\u5403\u5341\u53EA"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 0
+      value: 30
+      isPercentage: 0
+  - itemCode: 20014
+    itemType: 2
+    itemDescription: "\u725B\u6392"
+    itemSprite: {fileID: 21300000, guid: 007f9ca99cba60e4c8aa3f30431b1f2e, type: 3}
+    prefab: {fileID: 6316173728184680942, guid: ad07fb31db49b4b4aab1bd5ea955c525, type: 3}
+    itemLongDescription: "\u505A\u725B\u6392\u7684\u53A8\u5E08\u6C34\u5E73\u592A\u5DEE\u4E86\uFF0C\u725B\u6392\u719F\u8FC7\u5934\u4E86\uFF0C\u6839\u672C\u54AC\u4E0D\u52A8"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 0
+      value: 15
+      isPercentage: 0
+    - valueType: 1
+      value: -10
+      isPercentage: 0
+  - itemCode: 20015
+    itemType: 1
+    itemDescription: "\u653B\u51FB\u836F\u6C34"
+    itemSprite: {fileID: -2106783149, guid: 97671542be7d38c4188ef6df71cfed6e, type: 3}
+    prefab: {fileID: 3265345466194802244, guid: fe90512afbd3e8947b6ce2438ca59628, type: 3}
+    itemLongDescription: "\u636E\u8BF4\u90A3\u4E9B\u5389\u5BB3\u7684\u52C7\u8005\u90FD\u79BB\u4E0D\u5F00\u8FD9\u74F6\u836F\u6C34"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 2
+      value: 5
+      isPercentage: 0
+    - valueType: 4
+      value: 30
+      isPercentage: 0
+  - itemCode: 20016
+    itemType: 1
+    itemDescription: "\u901F\u5EA6\u836F\u6C34"
+    itemSprite: {fileID: 672414441, guid: 97671542be7d38c4188ef6df71cfed6e, type: 3}
+    prefab: {fileID: 1121403683913917946, guid: e641b23e3385c7e4a9ab2f91afe40bde, type: 3}
+    itemLongDescription: "\u60F3\u4F53\u9A8C\u98CE\u4E00\u822C\u7684\u901F\u5EA6\u5417\uFF0C\u8D76\u7D27\u559D\u4E0B\u5B83\u5427"
+    isPickable: 1
+    canBeDropped: 1
+    itemValuesList:
+    - valueType: 3
+      value: 0.15
+      isPercentage: 1
+    - valueType: 4
+      value: 30
+      isPercentage: 0

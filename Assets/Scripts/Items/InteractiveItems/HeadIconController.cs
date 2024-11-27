@@ -33,7 +33,7 @@ public class HeadIconController : MonoBehaviour
     {
         // 获取对应游戏物体身上的组件  因为启动游戏时signSprite是关闭的，所以需要指定对应物体
         animator = signSprite.GetComponent<Animator>();
-        playerInput = new PlayerInputControls();
+        playerInput = InputControlManager.Instance.InputControl;
         
 
         // 绑定按键

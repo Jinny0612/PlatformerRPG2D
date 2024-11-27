@@ -74,6 +74,33 @@ public enum ItemType
 }
 
 /// <summary>
+/// 物品数值类型
+/// </summary>
+public enum ItemValuesType
+{
+    /// <summary>
+    /// 血量
+    /// </summary>
+    Health,
+    /// <summary>
+    /// 精力值
+    /// </summary>
+    Energy,
+    /// <summary>
+    /// 攻击力
+    /// </summary>
+    AttackPoint,
+    /// <summary>
+    /// 移动速度
+    /// </summary>
+    MoveSpeed,
+    /// <summary>
+    /// 持续时间,此时value单位为秒
+    /// </summary>
+    Duration
+}
+
+/// <summary>
 /// 提醒类型
 /// </summary>
 public enum NotificationType
@@ -90,4 +117,43 @@ public enum NotificationType
     /// 拾取物品
     /// </summary>
     Item
+}
+
+/// <summary>
+/// 库存位置
+/// </summary>
+public enum InventoryLocation
+{
+    /// <summary>
+    /// 玩家
+    /// </summary>
+    player,
+    /// <summary>
+    /// 箱子
+    /// </summary>
+    chest,
+    count
+}
+
+/// <summary>
+/// 菜单类型
+/// </summary>
+public enum MenuType
+{
+    /// <summary>
+    /// 无
+    /// </summary>
+    None,
+    /// <summary>
+    /// 角色信息
+    /// </summary>
+    Character,
+    /// <summary>
+    /// 背包
+    /// </summary>
+    Inventory,
+    /// <summary>
+    /// 设置
+    /// </summary>
+    Settings
 }

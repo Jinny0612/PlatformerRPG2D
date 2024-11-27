@@ -51,10 +51,12 @@ public class Enemy : MonoBehaviour
     /// 触发远程攻击的距离
     /// </summary>
     public float remoteDistance;
+    
+
     /// <summary>
     /// 配置的enemy信息
     /// </summary>
-    [SerializeField] private EnemyInfo enemyInfo;
+    private EnemyInfo enemyInfo;
 
     [Header("血条管理")]
     /// <summary>
@@ -173,6 +175,16 @@ public class Enemy : MonoBehaviour
     /// </summary>
     public LayerMask attackLayer;
 
+    [Header("enemy被击杀相关")]
+    /// <summary>
+    /// 击杀掉落物品散落的力
+    /// </summary>
+    public float scatterForce;
+    /// <summary>
+    /// 掉落物品的父物体
+    /// </summary>
+    private Transform dropItemParent;
+
     #region unity事件
 
     /// <summary>
@@ -216,6 +228,7 @@ public class Enemy : MonoBehaviour
         // 不同状态等待时间不同，等待时间也为了避免碰撞检测时原地翻转问题
         waitTimeCounter = waitTime;
 
+        dropItemParent = GameObject.FindGameObjectWithTag(Tags.DROPITEMPARENT)?.transform;
 
     }
 
@@ -521,11 +534,54 @@ public class Enemy : MonoBehaviour
 
         #region 掉落配置好的物品
 
-        // todo: 先生成经验增加和金币增加的提醒
+        // 生成经验增加和金币增加的提醒
         DropExpAndCoinAfterDead();
-        // todo: 再掉落物品，拾取后再生成对应的提醒
 
+        // 生成掉落物品
+        InstantiageDropItems();
         #endregion
+
+    }
+
+    /// <summary>
+    /// 生成掉落物品
+    /// </summary>
+    private void InstantiageDropItems()
+    {
+        //todo: 物品掉落逻辑有问题，同时击杀多个敌人，会重复掉落多个物体
+        List<EnemyDropItem> dropItems = enemyInfo.enemyDropItemList;
+
+        foreach(EnemyDropItem item in dropItems)
+        {
+            //生成0-1之间的随机数
+            float randomValue = Random.Range(0f, 1f);
+            //随机数小于设定的掉落概率，掉落物品
+            if(randomValue <= item.dropChance)
+            {
+                // 获取预制体
+                GameObject prefab = InventoryManager.Instance.GetItemDetailByCode(item.itemCode)?.prefab;
+                // 生成预制体实例
+                GameObject droppedItem = Instantiate(prefab,transform.position,Quaternion.identity,dropItemParent);
+
+                // 获取rigidbody组件
+                Rigidbody2D rb = droppedItem.GetComponent<Rigidbody2D>();
+                Debug.Log("掉落物品 - " + item.itemCode);
+                if(rb != null)
+                {
+                    rb.drag = 2f;//添加线性阻力，减少物品的下落速度
+                    rb.angularDrag = 2f;//添加角阻力，减少物品的旋转速度
+                    // 给物品增加一个随机的力，模拟散落效果
+                    Vector2 randomDir = Random.insideUnitCircle.normalized;//随机方向
+                    Vector2 force = randomDir * scatterForce;
+                    // 添加瞬时的推力
+                    rb.AddForce(force, ForceMode2D.Impulse);
+
+                    // 随机旋转，增加自然的散落效果
+                    float randomRotation = Random.Range(0f, 360f);
+                    rb.rotation = randomRotation;
+                }
+            }
+        }
 
     }
 

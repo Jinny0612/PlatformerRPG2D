@@ -113,7 +113,7 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
     protected override void Awake()
     {
         base.Awake();
-        inputControl = new PlayerInputControls();
+        inputControl = InputControlManager.Instance.InputControl;
         rb = GetComponent<Rigidbody2D>();
         physicsCheck = GetComponent<PhysicsCheck>();
         coll = GetComponent<CapsuleCollider2D>();
@@ -399,6 +399,7 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
         rb.AddForce(dir * hurtForce, ForceMode2D.Impulse);
     }
 
+
     /// <summary>
     /// 角色死亡
     /// </summary>
@@ -406,7 +407,8 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
     {
         isDead = true;
         // 角色死亡，禁用键盘输入
-        inputControl.Disable();
+        //inputControl.Disable();
+        DisablePlayerControl();
     }
 
     /// <summary>
@@ -419,7 +421,8 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
     private void OnLoadSceneEvent(GameSceneSO arg0, Vector3 arg1, bool arg2)
     {
         // 禁用游戏时的输入（仅仅是角色控制相关）
-        inputControl.GamePlay.Disable();
+        //inputControl.GamePlay.Disable();
+        DisablePlayerControl();
         
     }
 
@@ -431,6 +434,22 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
     {
       
         inputControl.GamePlay.Enable();
+    }
+
+    /// <summary>
+    /// 启用玩家输入
+    /// </summary>
+    public void EnablePlayerControl()
+    {
+        inputControl.GamePlay.Enable();
+    }
+
+    /// <summary>
+    /// 禁用玩家输入
+    /// </summary>
+    public void DisablePlayerControl()
+    {
+        inputControl.GamePlay.Disable();
     }
 
     #endregion

@@ -2,7 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// ui管理
@@ -13,6 +15,10 @@ public class UIManager : SingletonMonoBehvior<UIManager>
     /// 左上角玩家状态栏
     /// </summary>
     public PlayerStatusBar playerStatusBar;
+    /// <summary>
+    /// 输入控制
+    /// </summary>
+    private PlayerInputControls inputControl;
     
     [Header("拾取提醒列表")]
     /// <summary>
@@ -40,6 +46,20 @@ public class UIManager : SingletonMonoBehvior<UIManager>
     /// </summary>
     private Dictionary<NotificationType,GameObject> notificationPrefabDict;
 
+    [Header("菜单UI控制")]
+    /// <summary>
+    /// 菜单
+    /// </summary>
+    public MenuBar menuBar;
+    /// <summary>
+    /// 背包
+    /// </summary>
+    public GameObject backpackUI;
+    /// <summary>
+    /// 当前打开的菜单
+    /// </summary>
+    public GameObject currentOpenBar;
+
     //[Header("事件监听")]
     /// <summary>
     /// 血量变化事件监听   Character绑定了OnHealthChange事件
@@ -58,11 +78,21 @@ public class UIManager : SingletonMonoBehvior<UIManager>
         notificationDictionary = new Dictionary<int, GameObject>();
         notificationPrefabDict = new Dictionary<NotificationType, GameObject>();
 
+        inputControl = InputControlManager.Instance.InputControl;
+        
         InitializedNotificationPrefabDictionary();
+
+        inputControl = InputControlManager.Instance.InputControl;
+        // 绑定打开背包操作
+        inputControl.UI.OpenBag.started += OpenBackpacUI;
+        // 绑定按下esc按键操作
+        inputControl.UI.CloseMenu.started += OnPressEscapeButton;
     }
 
     private void OnEnable()
     {
+        inputControl.Enable();
+
         //healthEvent.OnEventCalled += OnHealthEvent;
         EventHandler.OnHealthChangeEvent += OnHealthEvent;
 
@@ -78,6 +108,8 @@ public class UIManager : SingletonMonoBehvior<UIManager>
 
     private void OnDisable()
     {
+        inputControl.Disable();
+
         //healthEvent.OnEventCalled -= OnHealthEvent;
         EventHandler.OnHealthChangeEvent -= OnHealthEvent;
 
@@ -151,7 +183,7 @@ public class UIManager : SingletonMonoBehvior<UIManager>
     /// 血量变化事件
     /// </summary>
     /// <param name="character"></param>
-    private void OnHealthEvent(Character character)
+    public void OnHealthEvent(Character character)
     {
         // 计算百分比
         float persentage = character.currentHealth / character.maxHealth;
@@ -261,5 +293,114 @@ public class UIManager : SingletonMonoBehvior<UIManager>
         //删除字典中的元素
         notificationDictionary.Remove(notification.GetComponent<ItemNotification>().itemCode);
     }
+
+
+    #region 游戏内菜单相关，比如查看背包、角色信息、设置等
+
+    /// <summary>
+    /// 设置UI菜单控制状态
+    /// </summary>
+    /// <param name="state"></param>
+    public void SetInputControlUIState(bool state)
+    {
+        if (state)
+        {
+            inputControl.UI.Enable();
+        }
+        else
+        {
+            inputControl.UI.Disable();
+        }
+    }
+
+    /// <summary>
+    /// 变更MenuBar菜单的状态
+    /// </summary>
+    /// <param name="state"></param>
+    private void SwitchMenuBarState(bool state)
+    {
+        menuBar.gameObject.SetActive(state);
+    }
+
+    /// <summary>
+    /// 变更背包UI状态
+    /// </summary>
+    /// <param name="state"></param>
+    private void SwitchBackpackUIState(bool state)
+    {
+        backpackUI.SetActive(state);
+    }
+
+    /// <summary>
+    /// 打开背包
+    /// </summary>
+    /// <param name="obj"></param>
+    /// <exception cref="NotImplementedException"></exception>
+    private void OpenBackpacUI(InputAction.CallbackContext obj)
+    {
+        if (backpackUI.gameObject.activeInHierarchy && currentOpenBar)
+        {
+            // 背包已经打开了，按下按键就关闭背包
+            CloseMenuBar(obj);
+            currentOpenBar = null;
+            // 此时可以打开玩家控制
+            InputControlManager.Instance.EnableGameplayControl();
+        }
+        else
+        {
+            // 背包没打开，打开背包
+            // 首先关闭玩家控制
+            InputControlManager.Instance.DisableGameplayControl();
+            // 先激活菜单
+            SwitchMenuBarState(true);
+            // 激活背包
+            SwitchBackpackUIState(true);
+
+            currentOpenBar = backpackUI.gameObject;
+
+            // 显示背包内的物品
+            EventHandler.CallShowInventoryEvent(InventoryLocation.player, 
+                InventoryManager.Instance.GetInventoryListByInventoryType(InventoryLocation.player));
+        }
+
+    }
+
+    private void SwitchMenuByMenuType()
+    {
+
+    }
+
+    
+
+    /// <summary>
+    /// 关闭菜单
+    /// </summary>
+    /// <param name="obj"></param>
+    private void CloseMenuBar(InputAction.CallbackContext obj)
+    {
+        SwitchMenuBarState(false);
+        SwitchBackpackUIState(false);
+    }
+
+    /// <summary>
+    /// 按下esc键触发
+    /// </summary>
+    /// <param name="obj"></param>
+    private void OnPressEscapeButton(InputAction.CallbackContext obj)
+    {
+        if (menuBar.gameObject.activeInHierarchy)
+        {
+            // 菜单被激活，按下esc执行关闭菜单操作
+            CloseMenuBar(obj);
+            InputControlManager.Instance.EnableGameplayControl();
+        }
+        else
+        {
+            // 未激活菜单，此时按下esc打开暂停游戏界面
+            InputControlManager.Instance.DisableGameplayControl();
+        }
+    }
+
+    #endregion
 
 }

@@ -39,7 +39,7 @@ public class EnemyInfo
 }
 
 /// <summary>
-/// 敌人死亡掉落的物品 包括金币和经验
+/// 敌人死亡掉落的物品s
 /// </summary>
 [System.Serializable]
 public class EnemyDropItem
@@ -66,7 +66,7 @@ public class EnemyDropItem
     /// </summary>
     public int maxItemQuantity;
     /// <summary>
-    /// 拾取掉落物品提示预制体
+    /// 掉落概率 0-1范围
     /// </summary>
-    public GameObject notificationPrefab;
+    public float dropChance;
 }

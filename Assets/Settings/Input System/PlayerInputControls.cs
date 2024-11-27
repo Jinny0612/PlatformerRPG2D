@@ -451,6 +451,33 @@ public partial class @PlayerInputControls: IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenBag"",
+                    ""type"": ""Button"",
+                    ""id"": ""e09a9c5b-af5b-4b93-8fe0-2106d7519c08"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""OpenCharacterInfo"",
+                    ""type"": ""Button"",
+                    ""id"": ""265c3d48-04db-4ef2-99de-03a46777b272"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""CloseMenu"",
+                    ""type"": ""Button"",
+                    ""id"": ""7ce4427c-eba4-4db9-9f55-07a1442c510a"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -871,6 +898,39 @@ public partial class @PlayerInputControls: IInputActionCollection2, IDisposable
                     ""action"": ""TrackedDeviceOrientation"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""a0bc3ff5-6b91-4d70-8fba-bd1301284ba0"",
+                    ""path"": ""<Keyboard>/b"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Keyboard&Mouse"",
+                    ""action"": ""OpenBag"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""0f187379-53da-40b3-95ca-a6c6d4d238a6"",
+                    ""path"": ""<Keyboard>/c"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""OpenCharacterInfo"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""99482d79-0949-4b5b-9929-ffab86496d78"",
+                    ""path"": ""<Keyboard>/escape"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""CloseMenu"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -959,6 +1019,9 @@ public partial class @PlayerInputControls: IInputActionCollection2, IDisposable
         m_UI_RightClick = m_UI.FindAction("RightClick", throwIfNotFound: true);
         m_UI_TrackedDevicePosition = m_UI.FindAction("TrackedDevicePosition", throwIfNotFound: true);
         m_UI_TrackedDeviceOrientation = m_UI.FindAction("TrackedDeviceOrientation", throwIfNotFound: true);
+        m_UI_OpenBag = m_UI.FindAction("OpenBag", throwIfNotFound: true);
+        m_UI_OpenCharacterInfo = m_UI.FindAction("OpenCharacterInfo", throwIfNotFound: true);
+        m_UI_CloseMenu = m_UI.FindAction("CloseMenu", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -1124,6 +1187,9 @@ public partial class @PlayerInputControls: IInputActionCollection2, IDisposable
     private readonly InputAction m_UI_RightClick;
     private readonly InputAction m_UI_TrackedDevicePosition;
     private readonly InputAction m_UI_TrackedDeviceOrientation;
+    private readonly InputAction m_UI_OpenBag;
+    private readonly InputAction m_UI_OpenCharacterInfo;
+    private readonly InputAction m_UI_CloseMenu;
     public struct UIActions
     {
         private @PlayerInputControls m_Wrapper;
@@ -1138,6 +1204,9 @@ public partial class @PlayerInputControls: IInputActionCollection2, IDisposable
         public InputAction @RightClick => m_Wrapper.m_UI_RightClick;
         public InputAction @TrackedDevicePosition => m_Wrapper.m_UI_TrackedDevicePosition;
         public InputAction @TrackedDeviceOrientation => m_Wrapper.m_UI_TrackedDeviceOrientation;
+        public InputAction @OpenBag => m_Wrapper.m_UI_OpenBag;
+        public InputAction @OpenCharacterInfo => m_Wrapper.m_UI_OpenCharacterInfo;
+        public InputAction @CloseMenu => m_Wrapper.m_UI_CloseMenu;
         public InputActionMap Get() { return m_Wrapper.m_UI; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -1177,6 +1246,15 @@ public partial class @PlayerInputControls: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed += instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled += instance.OnTrackedDeviceOrientation;
+            @OpenBag.started += instance.OnOpenBag;
+            @OpenBag.performed += instance.OnOpenBag;
+            @OpenBag.canceled += instance.OnOpenBag;
+            @OpenCharacterInfo.started += instance.OnOpenCharacterInfo;
+            @OpenCharacterInfo.performed += instance.OnOpenCharacterInfo;
+            @OpenCharacterInfo.canceled += instance.OnOpenCharacterInfo;
+            @CloseMenu.started += instance.OnCloseMenu;
+            @CloseMenu.performed += instance.OnCloseMenu;
+            @CloseMenu.canceled += instance.OnCloseMenu;
         }
 
         private void UnregisterCallbacks(IUIActions instance)
@@ -1211,6 +1289,15 @@ public partial class @PlayerInputControls: IInputActionCollection2, IDisposable
             @TrackedDeviceOrientation.started -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.performed -= instance.OnTrackedDeviceOrientation;
             @TrackedDeviceOrientation.canceled -= instance.OnTrackedDeviceOrientation;
+            @OpenBag.started -= instance.OnOpenBag;
+            @OpenBag.performed -= instance.OnOpenBag;
+            @OpenBag.canceled -= instance.OnOpenBag;
+            @OpenCharacterInfo.started -= instance.OnOpenCharacterInfo;
+            @OpenCharacterInfo.performed -= instance.OnOpenCharacterInfo;
+            @OpenCharacterInfo.canceled -= instance.OnOpenCharacterInfo;
+            @CloseMenu.started -= instance.OnCloseMenu;
+            @CloseMenu.performed -= instance.OnCloseMenu;
+            @CloseMenu.canceled -= instance.OnCloseMenu;
         }
 
         public void RemoveCallbacks(IUIActions instance)
@@ -1295,5 +1382,8 @@ public partial class @PlayerInputControls: IInputActionCollection2, IDisposable
         void OnRightClick(InputAction.CallbackContext context);
         void OnTrackedDevicePosition(InputAction.CallbackContext context);
         void OnTrackedDeviceOrientation(InputAction.CallbackContext context);
+        void OnOpenBag(InputAction.CallbackContext context);
+        void OnOpenCharacterInfo(InputAction.CallbackContext context);
+        void OnCloseMenu(InputAction.CallbackContext context);
     }
 }

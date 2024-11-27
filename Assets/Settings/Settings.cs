@@ -7,6 +7,20 @@ using UnityEngine;
 /// </summary>
 public static class Settings 
 {
+
+    #region 库存参数
+
+    /// <summary>
+    /// 背包初始容量
+    /// </summary>
+    public static int playerInitialInventoryCapacity = 10;
+    /// <summary>
+    /// 背包最大容量
+    /// </summary>
+    public static int playerMaximumInventoryCapacity = 30;
+
+    #endregion
+
     #region Player动画参数
 
     /// <summary>

@@ -74,13 +74,12 @@ public class SceneLoadManagerNew : SingletonMonoBehvior<SceneLoadManagerNew>
 
     private void Start()
     {
-        //Debug.Log(player);
-        //loadSceneEvent.CallLoadRequestEvent(menuScene, firstEnterGamePlayerPosition, true);
+       
+        // 加载主菜单场景
+        EventHandler.CallSceneLoadEvent(menuScene, firstEnterGamePlayerPosition, true);
 
-        //EventHandler.CallSceneLoadEvent(menuScene, firstEnterGamePlayerPosition, true);
-        EventHandler.CallSceneLoadEvent(firstLoadScene, firstEnterGamePlayerPosition, true);
-        //NewGame();
-
+        // 加载首个游戏场景
+        //EventHandler.CallSceneLoadEvent(firstLoadScene, firstEnterGamePlayerPosition, true);
         
     }
 
@@ -169,9 +168,16 @@ public class SceneLoadManagerNew : SingletonMonoBehvior<SceneLoadManagerNew>
         //场景彻底完成切换，不再处于加载中
         isLoading = false;
         
+        if (currentLoadScene.sceneType == SceneType.Menu)
+        {
+            // 当前是主菜单场景，禁止UI按键
+            UIManager.Instance.SetInputControlUIState(false);
+        }
 
         if (currentLoadScene.sceneType == SceneType.Location)
         {
+            // UI按键可用
+            UIManager.Instance.SetInputControlUIState(true);
            
             // 将player放到预定的位置
             player.transform.position = positionToGo;

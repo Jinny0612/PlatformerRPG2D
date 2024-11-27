@@ -1,5 +1,6 @@
 using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// 物品获得提醒
@@ -17,7 +18,7 @@ public class ItemNotification : MonoBehaviour
     /// <summary>
     /// 当前需要显示的物品图片
     /// </summary>
-    public SpriteRenderer itemSpriteRenderer;
+    public Image showItemImage;
     /// <summary>
     /// 显示的物品描述
     /// </summary>
@@ -59,9 +60,9 @@ public class ItemNotification : MonoBehaviour
         currentNum += num;
         numText.text = currentNum.ToString();
 
-        if (itemSprite != null && itemSpriteRenderer != null)
+        if (itemSprite != null && showItemImage != null)
         {
-            itemSpriteRenderer.sprite = itemSprite;
+            showItemImage.sprite = itemSprite;
             this.itemDescription.text = itemDescription;
         }
 

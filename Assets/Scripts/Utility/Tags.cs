@@ -35,6 +35,16 @@ public static class Tags
     /// 可互动的物体，比如门，宝箱等
     /// </summary>
     public static string INTERACTIVE = "Interactive";
-
+    /// <summary>
+    /// enemy血量条
+    /// </summary>
     public static string ENEMYHEALTHBAR = "EnemyHealthBar";
+    /// <summary>
+    /// 可拾取物品
+    /// </summary>
+    public static string PICKABLEITEM = "PickableItem";
+    /// <summary>
+    /// 击杀敌人掉落物品的父物体
+    /// </summary>
+    public static string DROPITEMPARENT = "DropItemParent";
 }
