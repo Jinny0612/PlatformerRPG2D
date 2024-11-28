@@ -335,6 +335,8 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
         if (!isHurt)
         {
             isAttack = true;
+            // 重置速度，避免攻击时冲出去了
+            rb.velocity = Vector2.zero;
             EventHandler.CallPlayerAttack();
         }
         

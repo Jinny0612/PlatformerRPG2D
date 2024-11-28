@@ -44,13 +44,19 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
     /// 背包栏  物体被拖拽时暂时放在这个游戏物体下
     /// </summary>
     [SerializeField] private BackpackUI backpackUI;
+    /// <summary>
+    /// 物品预制体
+    /// </summary>
     [SerializeField] private GameObject itemPrefab;
-
+    /// <summary>
+    /// 背包格子位置，主要用于交换物品时使用，为松开鼠标时鼠标所指向的背包格子
+    /// </summary>
+    [SerializeField] private int slotNumber = 0;
 
     /// <summary>
     /// 物品详情
     /// </summary>
-    /*[HideInInspector] */public ItemDetails itemDetails;
+    [HideInInspector] public ItemDetails itemDetails;
     /// <summary>
     /// 物品数量，数值
     /// </summary>
@@ -116,7 +122,12 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
 
             if(eventData.pointerCurrentRaycast.gameObject != null && eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>() != null)
             {
-                // todo:如果结束时鼠标位置在背包栏的格子上
+                // 如果结束时鼠标位置在背包栏的格子上
+                // 获取当前鼠标所指的背包格子编号
+                int toSlotNumber = eventData.pointerCurrentRaycast.gameObject.GetComponent<InventorySlot>().slotNumber;
+
+                // 交换物品位置
+                InventoryManager.Instance.SwapInventoryItems(InventoryLocation.player, slotNumber, toSlotNumber);
             }
             else
             {
@@ -130,6 +141,15 @@ public class InventorySlot : MonoBehaviour, IBeginDragHandler, IDragHandler, IEn
             }
             
         }
+    }
+
+    /// <summary>
+    /// 设置背包格子编号
+    /// </summary>
+    /// <param name="slotNumber"></param>
+    public void SetSlotNumber(int slotNumber)
+    {
+        this.slotNumber = slotNumber;
     }
 
     

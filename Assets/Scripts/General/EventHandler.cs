@@ -231,7 +231,7 @@ public static class EventHandler
 
     #region 库存相关事件
 
-    /// <summary>
+    /*/// <summary>
     /// 库存更新事件
     /// </summary>
     public static event Action<InventoryLocation, List<InventoryItem>> OnInventoryUpdateEvent;
@@ -244,20 +244,20 @@ public static class EventHandler
     public static void CallInventoryUpdateEvent(InventoryLocation location, List<InventoryItem> items)
     {
         OnInventoryUpdateEvent?.Invoke(location, items);
-    }
+    }*/
 
     /// <summary>
     /// 显示库存UI内容事件
     /// </summary>
-    public static event Action<InventoryLocation, List<InventoryItem>> OnShowInventoryEvent;
+    public static event Action<InventoryLocation, List<InventoryItem>> OnInventoryUpdateEvent;
     /// <summary>
     /// 调用显示库存UI内容事件
     /// </summary>
     /// <param name="location"></param>
     /// <param name="items"></param>
-    public static void CallShowInventoryEvent(InventoryLocation location,List<InventoryItem> items)
+    public static void CallInventoryUpdateEvent(InventoryLocation location,List<InventoryItem> items)
     {
-        OnShowInventoryEvent?.Invoke(location, items);
+        OnInventoryUpdateEvent?.Invoke(location, items);
     }
 
     #endregion

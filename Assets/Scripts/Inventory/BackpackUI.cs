@@ -37,12 +37,12 @@ public class BackpackUI : MonoBehaviour
 
     private void OnEnable()
     {
-        EventHandler.OnShowInventoryEvent += ShowInventory;
+        EventHandler.OnInventoryUpdateEvent += ShowInventory;
     }
 
     private void OnDisable()
     {
-        EventHandler.OnShowInventoryEvent -= ShowInventory;
+        EventHandler.OnInventoryUpdateEvent -= ShowInventory;
     }
 
     /// <summary>
@@ -90,6 +90,7 @@ public class BackpackUI : MonoBehaviour
                             inventorySlotList[i].itemDetails = itemDetail;
                             inventorySlotList[i].itemQuantity = inventoryItems[i].itemQuantity;
                             inventorySlotList[i].itemQuantityText.text = inventorySlotList[i].itemQuantity.ToString();
+                            inventorySlotList[i].SetSlotNumber(i);
                             curInventoryItemCount++;
                         }
                         

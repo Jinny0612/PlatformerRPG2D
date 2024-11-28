@@ -78,8 +78,9 @@ public class ItemNotification : MonoBehaviour
         if(visiableTimeCounter <= 0)
         {
             // 倒计时结束，不可见，删除这个通知，从队列中也删除
+            EventHandler.CallDeleteNotificationAfterTimeCount(gameObject);
             Destroy(gameObject);
-            EventHandler.OnDeleteNotificationAfterTimeCount(gameObject);
+            
         }
         else
         {

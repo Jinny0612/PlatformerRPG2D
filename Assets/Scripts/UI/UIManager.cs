@@ -83,6 +83,7 @@ public class UIManager : SingletonMonoBehvior<UIManager>
         InitializedNotificationPrefabDictionary();
 
         inputControl = InputControlManager.Instance.InputControl;
+
         // 绑定打开背包操作
         inputControl.UI.OpenBag.started += OpenBackpacUI;
         // 绑定按下esc按键操作
@@ -287,8 +288,13 @@ public class UIManager : SingletonMonoBehvior<UIManager>
     /// <param name="notification"></param>
     private void DeleteNotification(GameObject notification)
     {
-        //出队
-        notificationQueue.Dequeue();
+
+        if (notificationQueue.Count > 0)
+        {
+            //出队
+            notificationQueue.Dequeue();
+
+        }
 
         //删除字典中的元素
         notificationDictionary.Remove(notification.GetComponent<ItemNotification>().itemCode);
@@ -359,9 +365,19 @@ public class UIManager : SingletonMonoBehvior<UIManager>
             currentOpenBar = backpackUI.gameObject;
 
             // 显示背包内的物品
-            EventHandler.CallShowInventoryEvent(InventoryLocation.player, 
+            EventHandler.CallInventoryUpdateEvent(InventoryLocation.player, 
                 InventoryManager.Instance.GetInventoryListByInventoryType(InventoryLocation.player));
         }
+
+    }
+
+    /// <summary>
+    /// 更新库存 主要用于打开背包后的操作
+    /// </summary>
+    /// <param name="location"></param>
+    /// <param name="inventoryItemList"></param>
+    private void UpdateInventory(InventoryLocation location,List<InventoryItem> inventoryItemList)
+    {
 
     }
 

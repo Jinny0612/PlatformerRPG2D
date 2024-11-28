@@ -225,8 +225,8 @@ public class InventoryManager : SingletonMonoBehvior<InventoryManager>
             RemoveItemAtPosition(inventoryItems,itemCode,itemPosition);
         }
         // 更新UI显示
-        EventHandler.CallShowInventoryEvent(inventoryLocation, inventoryItems);
-
+        EventHandler.CallInventoryUpdateEvent(inventoryLocation, inventoryItems);
+        DebugShowInventoryList(inventoryItems);
     }
 
     /// <summary>
@@ -251,13 +251,37 @@ public class InventoryManager : SingletonMonoBehvior<InventoryManager>
         else
         {
             // 数量降低为0，删除库存中这个物体
-            inventoryItems.Remove(item);
+            inventoryItems.Remove(inventoryItems[itemPosition]);
             
+        }
+    }
+
+    /// <summary>
+    /// 交换两个物品在库存中的位置
+    /// </summary>
+    /// <param name="location">库存类型</param>
+    /// <param name="fromItemSlotNumber">鼠标拖动的物品</param>
+    /// <param name="toItemSlotNumber">最后指向的物品</param>
+    public void SwapInventoryItems(InventoryLocation location, int fromItemSlotNumber, int toItemSlotNumber)
+    {
+        if(fromItemSlotNumber < inventoryLists[(int)location].Count  //todo: 此处可以添加toItem所在背包格子可用，过滤掉不可用的格子
+            && fromItemSlotNumber != toItemSlotNumber 
+            && fromItemSlotNumber >= 0 && toItemSlotNumber >= 0)
+        {
+            InventoryItem fromItem = inventoryLists[(int)location][fromItemSlotNumber];
+            InventoryItem toItem = inventoryLists[(int)location][toItemSlotNumber];
+
+            inventoryLists[(int)location][toItemSlotNumber] = fromItem;
+            inventoryLists[(int)location][fromItemSlotNumber] = toItem;
+
+            // 库存更新事件
+            EventHandler.CallInventoryUpdateEvent(location, inventoryLists[(int)location]);
         }
     }
 
     private void DebugShowInventoryList(List<InventoryItem> inventories)
     {
+        Debug.ClearDeveloperConsole();
         foreach(InventoryItem item in inventories)
         {
             Debug.Log("Item Description: " + InventoryManager.Instance.GetItemDetailByCode(item.itemCode).itemDescription 
