@@ -51,26 +51,22 @@ public enum SceneType
 /// </summary>
 public enum ItemType
 {
-    /// <summary>
-    /// 装备
-    /// </summary>
+    [Description("装备")]
     Equipment,
-    /// <summary>
-    /// 药水
-    /// </summary>
+
+    [Description("药水")]
     Potion,
-    /// <summary>
-    /// 食物
-    /// </summary>
+
+    [Description("食物")]
     Food,
-    /// <summary>
-    /// 经验
-    /// </summary>
+
+    [Description("经验")]
     Exp,
-    /// <summary>
-    /// 金币
-    /// </summary>
-    Coin
+
+    [Description("金币")]
+    Coin,
+
+    count
 }
 
 /// <summary>

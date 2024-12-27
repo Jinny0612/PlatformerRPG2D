@@ -15,6 +15,16 @@ public class InputControlManager : SingletonMonoBehvior<InputControlManager>
         _inputControl = new PlayerInputControls();
     }
 
+    private void OnEnable()
+    {
+        _inputControl.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _inputControl.Disable();
+    }
+
     /// <summary>
     /// ∆Ù”√”Œœ∑øÿ÷∆
     /// </summary>

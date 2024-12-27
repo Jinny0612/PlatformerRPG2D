@@ -18,6 +18,10 @@ public class BackpackUI : MonoBehaviour
     /// 拖拽的物品
     /// </summary>
     public GameObject inventoryDraggedItem;
+    /// <summary>
+    /// 物品详情文本框
+    /// </summary>
+    public GameObject inventoryTextBoxGameobject;
 
     /// <summary>
     /// 当前库存中物品的数量(使用了多少格背包)

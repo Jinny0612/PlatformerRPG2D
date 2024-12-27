@@ -16,6 +16,17 @@ public class EnemyAnimator : MonoBehaviour
         anim = GetComponent<Animator>();
         enemy = GetComponent<Enemy>();
     }
+
+    private void OnEnable()
+    {
+        EventHandler.OnEnemyGetHurtEvent += EnemyGetHurtEvent;
+    }
+
+    private void OnDisable()
+    {
+        EventHandler.OnEnemyGetHurtEvent -= EnemyGetHurtEvent;
+    }
+
     private void Update()
     {
         SetAnimation();
@@ -27,6 +38,11 @@ public class EnemyAnimator : MonoBehaviour
         anim.SetBool(Settings.enemyRun,enemy.isRun);
         anim.SetBool(Settings.enemyDeath, enemy.isDead);
         
+    }
+
+    private void EnemyGetHurtEvent(Transform transform)
+    {
+        EnemyHurt();
     }
 
     /// <summary>

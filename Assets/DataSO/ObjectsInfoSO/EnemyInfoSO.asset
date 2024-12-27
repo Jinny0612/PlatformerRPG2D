@@ -36,7 +36,7 @@ MonoBehaviour:
       isRandom: 0
       minItemQuantity: 0
       maxItemQuantity: 0
-      dropChance: 0.5
+      dropChance: 0.8
     - itemCode: 20009
       itemQuantity: 1
       isRandom: 0

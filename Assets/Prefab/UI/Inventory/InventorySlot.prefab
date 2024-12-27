@@ -339,6 +339,8 @@ MonoBehaviour:
   itemQuantityText: {fileID: 4389357648778701785}
   backpackUI: {fileID: 0}
   itemPrefab: {fileID: 5188742747706175819, guid: 8b8215a98626533469875a2d9c28babe, type: 3}
+  inventoryTextBoxPrefab: {fileID: 6003202391308196725, guid: 663c457aab710014fa8ccb86d02ca519, type: 3}
+  slotNumber: 0
   itemDetails:
     itemCode: 0
     itemType: 0

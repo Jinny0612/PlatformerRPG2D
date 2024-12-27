@@ -153,14 +153,65 @@ public static class EventHandler
     #endregion
 
 
+
+    #region Enemy相关
+
+    #region Enemy基础相关
+
+    /// <summary>
+    /// enemy受伤委托
+    /// </summary>
+    public static Action<Transform> OnEnemyGetHurtEvent;
+
+    /// <summary>
+    /// 调用enemy受伤委托
+    /// </summary>
+    /// <param name="transform"></param>
+    public static void CallEnemyGetHurtEvent(Transform transform)
+    {
+        OnEnemyGetHurtEvent?.Invoke(transform);
+    }
+
+    /// <summary>
+    /// enemy死亡委托
+    /// </summary>
+    public static Action OnEnemyDeadEvent;
+    /// <summary>
+    /// 调用Enemy死亡委托
+    /// </summary>
+    public static void CallEnemyDeadEvent()
+    {
+        OnEnemyDeadEvent?.Invoke();
+    }
+
+    #endregion
+
     #region Enemy UI相关
 
-    public static Action<Character,Enemy,GameObject> OnEnemyHealthUIBarChangeEvent;
+    /// <summary>
+    /// enemy血条更新
+    /// </summary>
+    public static Action<Character, Enemy,GameObject> OnEnemyHealthUIBarChangeEvent;
 
+    /// <summary>
+    /// enemy血条更新
+    /// </summary>
+    /// <param name="character"></param>
+    /// <param name="enemy"></param>
+    /// <param name="healthBar"></param>
     public static void CallEnemyHealthUIBarChangeEvent(Character character,Enemy enemy,GameObject healthBar)
     {
         OnEnemyHealthUIBarChangeEvent?.Invoke(character,enemy,healthBar);
     }
+
+    #region 暂时不用 同EnemyCharacter脚本一样
+    public static Action<EnemyCharacter, Enemy, GameObject> OnEnemyHealthUIBarChangeEventNew;
+
+    public static void CallEnemyHealthUIBarChangeEventNew(EnemyCharacter character, Enemy enemy, GameObject healthBar)
+    {
+        OnEnemyHealthUIBarChangeEventNew?.Invoke(character, enemy, healthBar);
+    }
+    #endregion
 
     public static Action<Enemy> OnDestroyHealthUIBarEvent;
 
@@ -168,6 +219,8 @@ public static class EventHandler
     {
         OnDestroyHealthUIBarEvent?.Invoke(enemy);
     }
+
+    #endregion
 
     #endregion
 

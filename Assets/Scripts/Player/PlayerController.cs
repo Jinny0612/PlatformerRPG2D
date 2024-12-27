@@ -144,8 +144,6 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
 
     private void OnEnable()
     {
-        // 启用输入控制
-        inputControl.Enable();
         // 监听player的坐标
         EventHandler.OnGetPlayerPosition += GetPlayerPosition;
         // 监听场景加载事件
@@ -161,7 +159,6 @@ public class PlayerController : SingletonMonoBehvior<PlayerController>
 
     private void OnDisable()
     {
-        inputControl.Disable();
         EventHandler.OnGetPlayerPosition -= GetPlayerPosition;
         //loadEvent.LoadRequestEvent += OnLoadSceneEvent;
         //afterSceneLoadedEvent.OnEventCalled -= OnAfterSceneLoadEvent;

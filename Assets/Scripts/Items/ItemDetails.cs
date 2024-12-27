@@ -60,7 +60,7 @@ public class ItemValues
     /// </summary>
     public ItemValuesType valueType;
     /// <summary>
-    /// 数值
+    /// 数值 包括负数
     /// </summary>
     public float value;
     /// <summary>

@@ -244,12 +244,16 @@ public class Enemy : MonoBehaviour
         currentState.OnEnter(this);
 
         //EventHandler.OnEnemyHealthUIBarChangeEvent += InstantiateHealthBar;
+        EventHandler.OnEnemyDeadEvent += EnemyDead;
+        EventHandler.OnEnemyGetHurtEvent += OnTakeDamage;
     }
 
     private void OnDisable()
     {
         currentState.OnExit();
         //EventHandler.OnEnemyHealthUIBarChangeEvent -= InstantiateHealthBar;
+        EventHandler.OnEnemyDeadEvent -= EnemyDead;
+        EventHandler.OnEnemyGetHurtEvent -= OnTakeDamage;
     }
 
     private void Update()
@@ -401,6 +405,7 @@ public class Enemy : MonoBehaviour
     {
         wait = false;
         waitTimeCounter = waitTime;
+        meleeTimeCounter = meleeCD;
     }
 
     /// <summary>
@@ -529,6 +534,8 @@ public class Enemy : MonoBehaviour
         gameObject.layer = 2;
         isDead = true;
 
+        Debug.Log("********** " + this.name + "死亡" + " **********");
+
         // 销毁血条
         EventHandler.CallDestroyHealthUIBarEvent(this);
 
@@ -548,11 +555,20 @@ public class Enemy : MonoBehaviour
     /// </summary>
     private void InstantiageDropItems()
     {
+        Debug.Log("================ " + this.name + "========================");
+        HashSet<int> droppedItemsCodeSet = new HashSet<int>();
+
         //todo: 物品掉落逻辑有问题，同时击杀多个敌人，会重复掉落多个物体
         List<EnemyDropItem> dropItems = enemyInfo.enemyDropItemList;
 
         foreach(EnemyDropItem item in dropItems)
         {
+
+            if (droppedItemsCodeSet.Contains(item.itemCode))
+            {
+                continue;
+            }
+
             //生成0-1之间的随机数
             float randomValue = Random.Range(0f, 1f);
             //随机数小于设定的掉落概率，掉落物品
@@ -565,7 +581,7 @@ public class Enemy : MonoBehaviour
 
                 // 获取rigidbody组件
                 Rigidbody2D rb = droppedItem.GetComponent<Rigidbody2D>();
-                Debug.Log("掉落物品 - " + item.itemCode);
+                Debug.Log("enemy -> " + this.name + "  掉落物品 - " + item.itemCode);
                 if(rb != null)
                 {
                     rb.drag = 2f;//添加线性阻力，减少物品的下落速度
@@ -580,9 +596,10 @@ public class Enemy : MonoBehaviour
                     float randomRotation = Random.Range(0f, 360f);
                     rb.rotation = randomRotation;
                 }
+                droppedItemsCodeSet.Add(item.itemCode);
             }
         }
-
+        Debug.Log("================ " + this.name + " 掉落物品结束" + "========================");
     }
 
     /// <summary>

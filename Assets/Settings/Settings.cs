@@ -18,6 +18,11 @@ public static class Settings
     /// 背包最大容量
     /// </summary>
     public static int playerMaximumInventoryCapacity = 30;
+    /// <summary>
+    /// 物品类型描述文本
+    /// </summary>
+    public static string itemTypeDescriptionText;
+    
 
     #endregion
 
@@ -128,5 +133,7 @@ public static class Settings
         open = Animator.StringToHash("open");
 
         #endregion
-}
+    }
+
+
 }

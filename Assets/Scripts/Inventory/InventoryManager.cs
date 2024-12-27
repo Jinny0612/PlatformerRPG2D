@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 
 /// <summary>
@@ -27,6 +28,15 @@ public class InventoryManager : SingletonMonoBehvior<InventoryManager>
     /// 根据物品详情列表转换为的物品字典
     /// </summary>
     private Dictionary<int,ItemDetails> itemDetailDictionary = new Dictionary<int,ItemDetails>();
+    /// <summary>
+    /// 配置好的物品属性图标
+    /// </summary>
+    public ItemAttributeIconMappingSO attributeIconMappingSO;
+    /// <summary>
+    /// 物品类型描述文本数组  下标为枚举值
+    /// </summary>
+    private string[] itemTypeDescriptionArray = new string[(int)ItemType.count];
+
 
     protected override void Awake()
     {
@@ -95,6 +105,42 @@ public class InventoryManager : SingletonMonoBehvior<InventoryManager>
             return itemDetails;
         }
         return null;
+    }
+
+    /// <summary>
+    /// 获取物品属性类型对应的图标
+    /// </summary>
+    /// <param name="valueType"></param>
+    /// <returns></returns>
+    public Sprite GetItemAttributeIcon(ItemValuesType valueType)
+    {
+        return attributeIconMappingSO.attributeIcons[(int)valueType].icon;
+    }
+
+    /// <summary>
+    /// 获取物品类型枚举值对应的文本信息
+    /// </summary>
+    /// <param name="type"></param>
+    /// <returns></returns>
+    public string GetItemTypeDescriptionText(ItemType type)
+    {
+        if(itemTypeDescriptionArray.Length == 0)
+        {
+            // 数组为空，初始化
+            foreach(ItemType itemtype in Enum.GetValues(typeof(ItemType)))
+            {
+                // 通过反射获取字段信息
+                FieldInfo fieldInfo = typeof(ItemType).GetField(itemtype.ToString());
+                // 获取这个字段的自定义attribute
+                DescriptionAttribute attribute = fieldInfo.GetCustomAttribute<DescriptionAttribute>();
+
+                if(attribute != null)
+                {
+                    itemTypeDescriptionArray[(int)itemtype] = attribute.Description;
+                }
+            }
+        }
+        return itemTypeDescriptionArray[(int)type];
     }
 
     /// <summary>
